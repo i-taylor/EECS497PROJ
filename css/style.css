@@ -4,6 +4,9 @@ INDEX.HTML -> LOGIN FORM
 
 ####################################################################################*/
 
+html, body {
+    overflow: hidden; /* prevents scrolling of background image*/
+}
 
 .ArtLinkLogin h2{
     color: #186C8F;
