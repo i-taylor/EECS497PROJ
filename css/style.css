@@ -1,0 +1,167 @@
+/*####################################################################################
+
+INDEX.HTML -> LOGIN FORM
+
+####################################################################################*/
+
+
+.ArtLinkLogin h2{
+    color: #186C8F;
+    font-family: fantasy;
+    font-size: 40px;
+    text-align: center;
+}
+.ArtLinkLogin{
+    background-color: #FFFFFF;
+    width: 39%;
+    height: 81%;
+    border-radius: 50px;
+}
+.bodylogin{
+    background-image: url('../images/backgroundimage.png');
+    background-size: cover;
+    background-position: center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ArtLinkLogin form {
+    display: flex;
+    flex-direction: column;  
+    gap: 20px;
+    align-items: center;
+}
+
+.ArtLinkLogin input {
+    padding: 10px;
+    font-size: 16px;
+    width: 70%;
+    border: none;
+    border-radius: 50px;
+    justify-content: center;
+    background-color: #93A7B0;
+}
+
+.ArtLinkLogin button {
+    padding: 10px;
+    font-size: 24px;
+    background-color: #186C8F;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    width: 70%;
+}
+
+
+.logo{
+    width: 100px;
+}
+
+/*####################################################################################
+
+REGISTER.HTML -> REGISTER FORM
+
+####################################################################################*/
+.ArtLinkRegister h2{
+    color: #186C8F;
+    font-family: fantasy;
+    font-size: 40px;
+    text-align: center;
+}
+.ArtLinkRegister{
+    background-color: #FFFFFF;
+    width: 60%;
+    height: 80%;
+    border-radius: 50px;
+}
+.bodyregister{
+    background-image: url('../images/backgroundimage.png');
+    background-size: cover;
+    background-position: center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ArtLinkRegister form {
+    display: flex;
+    flex-direction: column;  
+    gap: 20px;
+    align-items: center;
+}
+
+.ArtLinkRegister input {
+    padding: 10px;
+    font-size: 16px;
+    width: 60%;
+    border: none;
+    border-radius: 50px;
+    justify-content: center;
+    background-color: #93A7B0;
+}
+
+.ArtLinkRegister button {
+    padding: 10px;
+    font-size: 24px;
+    background-color: #186C8F;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    width: 60%;
+    cursor: pointer;
+}
+
+
+
+/*####################################################################################
+
+profile.html
+
+####################################################################################*/
+
+.profilepic {
+    position: relative;
+    width: 200px;
+  }
+  
+  .basicprofile {
+    opacity: 1;
+    display: block;
+    width: 80%;
+    height: auto;
+  }
+  
+  .choice {
+    opacity: 0;
+    position: absolute;
+    top: 40%;
+    bottom: 50%;
+    text-align: center;
+  }
+.profilepic:hover .basicprofile{
+    opacity: .25;
+}
+.profilepic:hover .choice{
+    opacity: 1;
+}
+
+.profilenav{
+    background-color: #186C8F;
+}
+.main {
+    overflow-y:scroll;
+}
+.profileul {
+    list-style: none;
+}
+
+.profileli{
+    display: inline;
+    background-color: #93A7B0;
+    border-radius: 50%;
+    padding: 10px;
+    margin: 10px;
+    color: #FFFFFF;
+}
+
