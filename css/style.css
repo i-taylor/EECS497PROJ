@@ -104,6 +104,10 @@ REGISTER.HTML -> REGISTER FORM
     background-color: #93A7B0;
 }
 
+input::placeholder {
+    color: white;
+}
+
 .ArtLinkRegister button {
     padding: 10px;
     font-size: 24px;
