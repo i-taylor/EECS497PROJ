@@ -190,8 +190,12 @@ index.html -> unlogged in homepage
 .homepagenav a {
     display: inline-block;
 }
+.loginsignupprompt{
+    font-family:sans-serif;
+    font-size: 10px;
+}
 
 .homepagenav img {
-    width: 100px;
+    width:30px;
     height: auto;
 }
