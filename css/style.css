@@ -127,49 +127,65 @@ profile.html
 
 ####################################################################################*/
 
+/* Profile Picture Section */
 .profilepic {
     position: relative;
     width: 200px;
-  }
-  
-  .basicprofile {
+}
+
+.basicprofile {
     opacity: 1;
     display: block;
     width: 80%;
     height: auto;
-  }
-  
-  .choice {
+}
+
+.choice {
     opacity: 0;
     position: absolute;
     top: 40%;
     bottom: 50%;
     text-align: center;
-  }
-.profilepic:hover .basicprofile{
-    opacity: .25;
 }
-.profilepic:hover .choice{
+
+.profilepic:hover .basicprofile {
+    opacity: 0.25;
+}
+
+.profilepic:hover .choice {
     opacity: 1;
 }
 
-.profilenav{
+/* Navigation Bar */
+.profilenav {
     background-color: #186C8F;
-}
-.main {
-    overflow-y:scroll;
-}
-.profileul {
-    list-style: none;
+    display: flex;                /* Flexbox layout */
+    justify-content: space-between; /* Push items to far ends */
+    align-items: center;          /* Align items vertically */
+    padding: 10px 20px;           /* Add padding around the navbar */
 }
 
-.profileli{
-    display: inline;
+/* Navigation Elements */
+.profileul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;                /* Arrange list items horizontally */
+}
+
+.profileli {
+    display: inline-block;
     background-color: #93A7B0;
     border-radius: 50%;
     padding: 10px;
     margin: 10px;
     color: #FFFFFF;
+}
+
+/* Logo in Header */
+.header-logo {
+    height: 200px;                 /* Set a maximum height for the logo */
+    width: auto;                  /* Maintain aspect ratio */
 }
 
 /*####################################################################################
