@@ -5,21 +5,20 @@
     <title></title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" href="/images/icon.png">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script type = "module" src = "/js/login.js" defer></script>
 </head>
 <body>
-    <body class = "bodylogin">
-        <div class = "ArtLinkLogin">
-            <h2>ArtLink</h2>
-            <form id="loginform">
-                <input type="text" name = "email" required placeholder = "Email">
-                <input type="password" name  = "password" required placeholder = "Password">
-                <img class = "logo" src = "/images/logo.png" alt = "ArtLink logo">
-                <p> <a href="/templates/register.html" id = "register"> New user? Sign up here!</a></p>
-                <button type = "submit">Login</button>
-            </form>
-        </div>
-    </body>
+    <div class = "backgroundblocks">
+        <nav class= "homepagenav">
+            <p class = "loginsignupprompt">Not Signed in Homepage</p>
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" required placeholder="Search" id="searchInput">
+                </div>
+            </div>
+            <a href="/templates/login.html">
+                <img src = "/images/profilebackground.png" alt = "background of profile pic">
+            </a>
+        </nav>
+    </div>
 </body>
 </html>
