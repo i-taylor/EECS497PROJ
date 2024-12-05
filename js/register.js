@@ -48,13 +48,9 @@ async function signUpNewUser(email,password,username) {
         return null;
     }else{
         console.log('Registered successfully:', data);
-        const { UIDdata, error1 } = await supabase
-            .from('auth.users')
-            .select('*')
-            .eq('Email', email)
-            .single()
+        alert('Registered successfully')
         const { error2 } = await supabase
           .from('Profile_Information')
-          .insert({ UID: UIDdata.UID, Username: username, Email:email})
+          .insert({ UID: data.UID, Username: username, Email:email})
     }
 }
