@@ -199,3 +199,8 @@ index.html -> unlogged in homepage
     width:30px;
     height: auto;
 }
+
+.homepagenav input::placeholder {
+    color: black;
+}
+
