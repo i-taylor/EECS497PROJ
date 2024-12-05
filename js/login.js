@@ -14,16 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = formData.get('email');
     const password = formData.get('password');
     
-    
-    
     signInWithEmail(email,password)
-
-
 
   });
 });
 
-async function signInWithEmail(email, password) {
+async function signInWithEmail(username, email, password) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email,
     password: password,

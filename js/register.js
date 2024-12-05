@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
 
     const formData = new FormData(form);
+    const username = formData.get('username');
     const password = formData.get('password');
     const confirmPassword = formData.get('confirmPassword');
     const email = formData.get('email');
@@ -34,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-async function signUpNewUser(email,password) {
+async function signUpNewUser(email,password,username) {
     const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
@@ -46,7 +47,14 @@ async function signUpNewUser(email,password) {
         console.error("Error fetching data:", error);
         return null;
     }else{
-        console.log('Signed in successfully:', data);
-        window.location.href = "/templates/login.html";
+        console.log('Registered successfully:', data);
+        const { UIDdata, error1 } = await supabase
+            .from('auth.users')
+            .select('*')
+            .eq('Email', email)
+            .single()
+        const { error2 } = await supabase
+          .from('Profile_Information')
+          .insert({ UID: UIDdata.UID, Username: username, Email:email})
     }
 }
