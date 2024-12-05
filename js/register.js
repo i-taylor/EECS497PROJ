@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    signUpNewUser(email,password);
+    signUpNewUser(email,password, username);
   });
 });
 
@@ -48,9 +48,10 @@ async function signUpNewUser(email,password,username) {
         return null;
     }else{
         console.log('Registered successfully:', data);
-        alert('Registered successfully')
         const { error2 } = await supabase
           .from('Profile_Information')
-          .insert({ UID: data.UID, Username: username, Email:email})
+          .insert({UID: data.user.id, Username: username, Email:email})
+        alert('Registered Sucessfully! Please Sign In!');
+        window.location.href = "login.html";
     }
 }
