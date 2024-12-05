@@ -6,37 +6,19 @@ const supabase = createClient(
 );
 
 try {
-    // Get the current user
-    const { data: user, error: userError } = await supabase.auth.getUser();
-    if (userError) throw userError;
-
-    if (user) {
-        const userId = user.id;
-        console.log("hi")
-        const { data,error } = await supabase.storage
-            .from('Postimages')
-            .select('*')
-            .eq('owner', userId)
-            .limit(1);
-        console.log("hi2")
-        if (objects && objects.length > 0) {
-            // Get the public URL of the image
-            const imageKey = objects[0].name;
-            const { data: publicUrlData } = supabase.storage
-                .from('Postimages')
-                .getPublicUrl(imageKey);
-
-            // Update the profile picture
-            const profilePicture = document.getElementById('profilePicture');
-            profilePicture.src = publicUrlData.publicUrl;
-
-            console.log('Profile picture updated!');
-        } else {
-            console.log('No image found for the current user.');
+    console.log("hi")
+    const { data: { user } } = await supabase.auth.getUser()
+    const { picdata, error } = await supabase
+        .from('Profile_Information')
+        .select('ProfilePicLink')
+        .eq('UID', user.id)
+    if (error) {
+        console.error('Error fetching profile data:', profileError.message);
         }
-    } else {
-        console.log('User not authenticated.');
-    }
+    console.log("hi2")
+    
+    
+
 } catch (error) {
     console.error('Error updating profile picture:', error.message);
 }

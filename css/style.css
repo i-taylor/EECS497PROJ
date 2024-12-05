@@ -136,15 +136,17 @@ profile.html
 .basicprofile {
     opacity: 1;
     display: block;
-    width: 80%;
-    height: auto;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
 }
 
 .choice {
     opacity: 0;
     position: absolute;
     top: 40%;
-    bottom: 50%;
+    left: 50%;                  /* Center horizontally */
+    transform: translateX(-50%);
     text-align: center;
 }
 
@@ -157,13 +159,16 @@ profile.html
 }
 
 /* Navigation Bar */
-.profilenav {
+.p_navblock {
     background-color: #186C8F;
-    display: flex;                /* Flexbox layout */
     justify-content: space-between; /* Push items to far ends */
     align-items: center;          /* Align items vertically */
     padding: 10px 20px;           /* Add padding around the navbar */
+    height: 250px;                /* Adjust as needed */
+    width: 100%;                  /* Ensure full width */
+    margin: 0;                    /* Remove any default margin */
 }
+
 
 /* Navigation Elements */
 .profileul {
@@ -171,22 +176,33 @@ profile.html
     margin: 0;
     padding: 0;
     display: flex;                /* Arrange list items horizontally */
+    align-items: center;
 }
 
 .profileli {
     display: inline-block;
     background-color: #93A7B0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     border-radius: 50%;
     padding: 10px;
     margin: 10px;
     color: #FFFFFF;
 }
 
-/* Logo in Header */
-.header-logo {
-    height: 200px;                 /* Set a maximum height for the logo */
-    width: auto;                  /* Maintain aspect ratio */
+/* Profile Description Button */
+.profile-description {
+    height: 25px;
+    padding: 8px 16px;
+    background-color: #93A7B0;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
+
+/* Prof
 
 /*####################################################################################
 
@@ -201,6 +217,8 @@ index.html -> unlogged in homepage
     background-color: #333;
     background-color: #D9D9D9;
     margin: 0px;
+    width: 100vw;
+    height: auto;
 }
 
 .homepagenav a {
@@ -209,11 +227,13 @@ index.html -> unlogged in homepage
 .loginsignupprompt{
     font-family:sans-serif;
     font-size: 10px;
+    padding-left: 10px;
 }
 
 .homepagenav img {
     width:30px;
     height: auto;
+    padding-right: 10px;
 }
 
 .homepagenav input::placeholder {

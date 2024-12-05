@@ -47,6 +47,13 @@ document.getElementById("imageUpload").addEventListener("change", async (event) 
         const profilePic = document.getElementById('profilepic');
         profilePic.src = publicUrl;
 
+        const { data: { user } } = await supabase.auth.getUser()
+        const { error } = await supabase
+          .from('Profile_Information')
+          .update({ ProfilePicLink: publicUrl })
+          .eq('UID', user.id)
+
+
       } else {
         alert('Could not retrieve public URL for the uploaded file.');
       }
