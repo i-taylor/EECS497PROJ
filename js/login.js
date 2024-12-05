@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-async function signInWithEmail(username, email, password) {
+async function signInWithEmail(email, password) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email,
     password: password,
@@ -30,6 +30,6 @@ async function signInWithEmail(username, email, password) {
     return null;
   }else{
     console.log('Signed in successfully:', data);
-    window.location.href = "/templates/homepage.html";
+    window.location.href = "homepage.html";
   }
 }
