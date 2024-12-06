@@ -153,7 +153,7 @@ index.html -> logged in homepage
     background-color: #333;
     background-color: #D9D9D9;
     margin: 0px;
-    width: 95vw;
+    width: 100vw;
     height: auto;
 }
 
@@ -167,10 +167,10 @@ index.html -> logged in homepage
 }
 
 .homepagenav img {
-    width: 25px; /* Set a fixed width */
-    height: 25px; /* Set a fixed height to make it square */
+    width: 40px; /* Set a fixed width */
+    height: 40px; /* Set a fixed height to make it square */
     border-radius: 50%; /* Make it circular */
-    
+    padding: 5px
 }
 
 .homepagenav input::placeholder {

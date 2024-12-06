@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error inserting post:', error.message);
             alert('Failed to create post. Check the console for details.');
           } else {
-            alert('Post created successfully!');
             postForm.style.display = 'none';
           }
         } else {

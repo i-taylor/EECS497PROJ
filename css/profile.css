@@ -241,3 +241,97 @@
   .popup-form button {
     margin-top: 10px;
   }
+
+
+
+
+
+
+
+
+
+
+
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+}
+
+  #post-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+    gap: 20px;
+    justify-items: center;
+    max-width: 1200px;
+    padding: 20px;
+    overflow-y: scroll;
+}
+
+.post-card {
+    background: #326a8c;
+    color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    padding: 16px;
+    box-sizing: border-box;
+    min-width: 250px;
+    max-width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0; /* Don't let it grow unnecessarily */
+}
+
+.post-card .post-header,
+.post-card .post-description,
+.post-card .post-content {
+    flex: 0 1 auto;
+}
+
+.post-card:hover {
+    transform: scale(1.05);
+}
+
+.post-header {
+    display: flex;
+    border-radius: 8px;
+}
+
+.post-header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.post-description {
+    margin-top: 12px;
+    line-height: 1.5;
+}
+
+.post-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.post-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.post-content audio,
+.post-content video {
+    width: 100%;
+}
