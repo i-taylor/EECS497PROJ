@@ -128,81 +128,115 @@
     </div>
 
     <div id="post-container"></div>
-    <script>
-        // Function to fetch and parse CSV
-        async function fetchAndParseCSV(csvFilePath) {
-            const response = await fetch(csvFilePath);
-            const csvText = await response.text();
-            return csvToJSON(csvText);
-        }
+    <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-        // Convert CSV text to JSON array
-        function csvToJSON(csvText) {
-            const lines = csvText.split("\n").filter(line => line.trim() !== "");
-            const headers = lines[0].split(",");
-            const data = lines.slice(1).map(line => {
-                const values = line.split(",");
-                return headers.reduce((obj, header, index) => {
-                    obj[header] = values[index];
-                    return obj;
-                }, {});
-            });
-            return data;
-        }
+    const supabase = createClient(
+    'https://hztcovrucgaxplyruazp.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
+    );
 
+    
+        async function fetchFilteredPosts() {
+            try {
+                // Get the logged-in user
+                const { data: { user } } = await supabase.auth.getUser()
+    
+                const loggedInUserId = user.id;
+                console.log(user.id)
+                // Fetch all posts excluding the logged-in user's posts
+                const { data: posts, error: postError } = await supabase
+                    .from('Posts')
+                    .select('*')
+                    .neq('UID', loggedInUserId); // Exclude user's posts
+    
+                if (postError) throw postError;
+    
+                console.log('Filtered Posts:', posts); // Debug
+    
+                // Fetch all profiles
+                const { data: profiles, error: profileError } = await supabase
+                    .from('Profile_Information')
+                    .select('*');
+    
+                if (profileError) throw profileError;
+    
+                console.log('Profiles:', profiles); // Debug
+    
+                // Combine post and profile data
+                return posts.map(post => {
+                    const profile = profiles.find(profile => profile.UID === post.UID);
+                    return {
+                        username: profile?.Username || 'Unknown',
+                        profilePic: profile?.ProfilePicLink || './images/default-profile.png',
+                        caption: post.Caption,
+                        content: post.Content,
+                        likes: post.Likes
+                    };
+                });
+            } catch (error) {
+                console.error('Error fetching posts or profiles:', error.message);
+                return [];
+            }
+        }
+    
         // Function to create a post card
-        function createPostCard({ username, profilePicture, postType, description, contentLink }) {
-            const card = document.createElement("div");
-            card.className = "post-card";
-
-            const header = document.createElement("div");
-            header.className = "post-header";
+        function createPostCard({ username, caption, content, likes, profilePic }) {
+            const card = document.createElement('div');
+            card.className = 'post-card';
+    
+            const header = document.createElement('div');
+            header.className = 'post-header';
             header.innerHTML = `
-                <img src="${profilePicture}" alt="${username}">
+                <img src="${profilePic}" alt="${username}">
                 <p>${username}</p>
             `;
-
-            const desc = document.createElement("div");
-            desc.className = "post-description";
-            desc.textContent = description;
-
-            const content = document.createElement("div");
-            content.className = "post-content";
-
-            if (postType === "Image") {
-                const img = document.createElement("img");
-                img.src = contentLink;
-                content.appendChild(img);
-            } else if (postType === "Music") {
-                const audio = document.createElement("audio");
-                audio.controls = true;
-                audio.src = contentLink;
-                content.appendChild(audio);
-            } else if (postType === "Video") {
-                const video = document.createElement("video");
+    
+            const desc = document.createElement('div');
+            desc.className = 'post-description';
+            desc.textContent = caption;
+    
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'post-content';
+    
+            if (content.endsWith('.jpg') || content.endsWith('.png')) {
+                const img = document.createElement('img');
+                img.src = content;
+                contentDiv.appendChild(img);
+            } else if (content.endsWith('.mp4')) {
+                const video = document.createElement('video');
                 video.controls = true;
-                video.src = contentLink;
-                content.appendChild(video);
+                video.src = content;
+                contentDiv.appendChild(video);
+            } else if (content.endsWith('.mp3')) {
+                const audio = document.createElement('audio');
+                audio.controls = true;
+                audio.src = content;
+                contentDiv.appendChild(audio);
+            } else {
+                contentDiv.textContent = 'Unsupported content type';
             }
-
+    
             card.appendChild(header);
             card.appendChild(desc);
-            card.appendChild(content);
+            card.appendChild(contentDiv);
+    
             return card;
         }
-
-        // Initialize Posts
+    
+        // Initialize posts
         async function initializePosts() {
-            const posts = await fetchAndParseCSV("friends.csv"); // Path to your CSV
-            const container = document.getElementById("post-container");
-
-            posts.forEach(post => {
+            const filteredPosts = await fetchFilteredPosts();
+            const container = document.getElementById('post-container');
+    
+            filteredPosts.forEach(post => {
                 const card = createPostCard(post);
                 container.appendChild(card);
             });
         }
-
+    
         initializePosts();
     </script>
+    
 </body>
 </html>

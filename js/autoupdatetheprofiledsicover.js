@@ -19,10 +19,15 @@ try {
     const Usernamefive = document.getElementById("username5");
 
     const { data: { user } } = await supabase.auth.getUser()
+    
+    const loggedInUserId = user.id;
+    console.log(user.id)
 
     const { data, error } = await supabase
             .from('Profile_Information')
             .select('*')
+            .neq('UID', loggedInUserId); // Exclude user's profile
+    
     if (error) {
         console.error('Supabase query error:', error.message);
     }

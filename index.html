@@ -1,200 +1,193 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Supabase Posts with Profiles</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="icon" href="./images/icon.png">
     <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f9;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        overflow-y: scroll;
-    }
-
-    #post-container {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
-        gap: 20px;
-        justify-items: center;
-        max-width: 1200px;
-        padding: 20px;
-        overflow-y: scroll;
-    }
-
-    .post-card {
-        background: #326a8c;
-        color: #fff;
-        border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        overflow: hidden;
-        transition: transform 0.2s ease;
-        padding: 16px;
-        box-sizing: border-box;
-        min-width: 250px;
-        max-width: 100%;
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        flex-grow: 0; /* Don't let it grow unnecessarily */
-    }
-
-    .post-card .post-header,
-    .post-card .post-description,
-    .post-card .post-content {
-        flex: 0 1 auto;
-    }
-
-    .post-card:hover {
-        transform: scale(1.05);
-    }
-
-    .post-header {
-        display: flex;
-        border-radius: 8px;
-    }
-
-    .post-header img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 12px;
-    }
-
-    .post-description {
-        margin-top: 12px;
-        line-height: 1.5;
-    }
-
-    .post-content {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 12px;
-    }
-
-    .post-content img {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-    }
-
-    .post-content audio,
-    .post-content video {
-        width: 100%;
-    }
-
-    /* Responsive design tweaks */
-    @media (max-width: 992px) {
-        .post-card {
-            flex: 1 1 calc(33% - 20px);
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: scroll;
         }
-    }
 
-    @media (max-width: 768px) {
-        .post-card {
-            flex: 1 1 calc(50% - 20px);
+        #post-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+            gap: 20px;
+            justify-items: center;
+            max-width: 1200px;
+            padding: 20px;
         }
-    }
 
-    @media (max-width: 480px) {
         .post-card {
-            flex: 1 1 calc(100% - 20px);
+            background: #326a8c;
+            color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+            padding: 16px;
+            box-sizing: border-box;
+            min-width: 250px;
+            height: auto;
+            display: flex;
+            flex-direction: column;
         }
-    }
+
+        .post-card:hover {
+            transform: scale(1.05);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .post-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+
+        .post-description {
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        .post-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* Responsive design tweaks */
+        @media (max-width: 992px) {
+            #post-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            #post-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            #post-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class = "backgroundblocks">
-        <nav class= "homepagenav">
-            <p class = "loginsignupprompt">Not Signed in Homepage</p>
-            <div class="search-container">
-                <div class="search-box">
-                    <input type="text" required placeholder="Search" id="searchInput">
-                </div>
-            </div>
-            
-            <a href="login.html">
-                <img src = "./images/profilebackground.png" alt = "background of profile pic">
-            </a>
-        </nav>
-    </div>
+    <nav class="homepagenav">
+        <p class="loginsignupprompt">Not Signed in Homepage</p>
+        <div class="search-container">
+            <input type="text" placeholder="Search" id="searchInput">
+        </div>
+        <a href="login.html">
+            <img src="./images/profilebackground.png" alt="Profile">
+        </a>
+    </nav>
     <div id="post-container"></div>
-    <script>
-        // Function to fetch and parse CSV
-        async function fetchAndParseCSV(csvFilePath) {
-            const response = await fetch(csvFilePath);
-            const csvText = await response.text();
-            return csvToJSON(csvText);
-        }
 
-        // Convert CSV text to JSON array
-        function csvToJSON(csvText) {
-            const lines = csvText.split("\n").filter(line => line.trim() !== "");
-            const headers = lines[0].split(",");
-            const data = lines.slice(1).map(line => {
-                const values = line.split(",");
-                return headers.reduce((obj, header, index) => {
-                    obj[header] = values[index];
-                    return obj;
-                }, {});
-            });
-            return data;
-        }
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+        const supabase = createClient(
+    'https://hztcovrucgaxplyruazp.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
+    );
 
         // Function to create a post card
-        function createPostCard({ username, profilePicture, postType, description, contentLink }) {
-            const card = document.createElement("div");
-            card.className = "post-card";
+        function createPostCard({ username, caption, content, likes, profilePic }) {
+            const card = document.createElement('div');
+            card.className = 'post-card';
 
-            const header = document.createElement("div");
-            header.className = "post-header";
+            const header = document.createElement('div');
+            header.className = 'post-header';
             header.innerHTML = `
-                <img src="${profilePicture}" alt="${username}">
+                <img src="${profilePic}" alt="${username}">
                 <p>${username}</p>
             `;
 
-            const desc = document.createElement("div");
-            desc.className = "post-description";
-            desc.textContent = description;
+            const desc = document.createElement('div');
+            desc.className = 'post-description';
+            desc.textContent = caption;
 
-            const content = document.createElement("div");
-            content.className = "post-content";
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'post-content';
 
-            if (postType === "Image") {
-                const img = document.createElement("img");
-                img.src = contentLink;
-                content.appendChild(img);
-            } else if (postType === "Music") {
-                const audio = document.createElement("audio");
-                audio.controls = true;
-                audio.src = contentLink;
-                content.appendChild(audio);
-            } else if (postType === "Video") {
-                const video = document.createElement("video");
+            if (content.endsWith('.jpg') || content.endsWith('.png')) {
+                const img = document.createElement('img');
+                img.src = content;
+                contentDiv.appendChild(img);
+            } else if (content.endsWith('.mp4')) {
+                const video = document.createElement('video');
                 video.controls = true;
-                video.src = contentLink;
-                content.appendChild(video);
+                video.src = content;
+                contentDiv.appendChild(video);
+            } else if (content.endsWith('.mp3')) {
+                const audio = document.createElement('audio');
+                audio.controls = true;
+                audio.src = content;
+                contentDiv.appendChild(audio);
+            } else {
+                contentDiv.textContent = 'Unsupported content type';
             }
 
             card.appendChild(header);
             card.appendChild(desc);
-            card.appendChild(content);
+            card.appendChild(contentDiv);
+
             return card;
         }
 
-        // Initialize Posts
-        async function initializePosts() {
-            const posts = await fetchAndParseCSV("posts.csv"); // Path to your CSV
-            const container = document.getElementById("post-container");
+        // Function to fetch posts and profiles from Supabase
+        async function fetchPostsAndProfiles() {
+            // Fetch all posts
+            const { data: posts, error: postError } = await supabase.from('Posts').select('*');
+            if (postError) {
+                console.error('Error fetching posts:', postError.message);
+                return [];
+            }
 
-            posts.forEach(post => {
+            // Fetch all profiles
+            const { data: profiles, error: profileError } = await supabase.from('Profile_Information').select('*');
+            if (profileError) {
+                console.error('Error fetching profiles:', profileError.message);
+                return [];
+            }
+
+            // Combine post and profile data
+            return posts.map(post => {
+                const profile = profiles.find(profile => profile.UID === post.UID);
+                return {
+                    username: profile?.Username || 'Unknown',
+                    profilePic: profile?.ProfilePicLink || './images/default-profile.png',
+                    caption: post.Caption,
+                    content: post.Content,
+                    likes: post.Likes
+                };
+            });
+        }
+
+        // Initialize posts
+        async function initializePosts() {
+            const postsWithProfiles = await fetchPostsAndProfiles();
+            const container = document.getElementById('post-container');
+            postsWithProfiles.forEach(post => {
                 const card = createPostCard(post);
                 container.appendChild(card);
             });
