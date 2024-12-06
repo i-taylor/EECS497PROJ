@@ -220,11 +220,66 @@
 
 
            
-            <div class = "gohome">
-                <button id="back_button" href="profile.html">Go Back</button>
-                <script type = "module" src="./js/back.js" defer></script>
-                <p class = "homepagesignifier">Go Back to Your Profile</p>
+            <div class = "followuserbutton">
+                <button id="followbutton">Follow</button>
             </div>
+
+            <script type = "module">
+                import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+                const supabase3 = createClient(
+                'https://hztcovrucgaxplyruazp.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
+                );
+                const { data: { user } } = await supabase3.auth.getUser()
+                const descriptionText = document.getElementById("descriptiontext");
+                const urlParams = new URLSearchParams(window.location.search);
+                const userId2 = urlParams.get('uid');
+                console.log(user.id)
+                console.log(userId2)
+                const { data } = await supabase3
+                        .from('FriendTable')
+                        .select('*')
+                        .eq('UID1', user.id)
+                        .eq('UID2', userId2)
+                console.log(data)
+                if((data && data.length > 0)){
+                    followbutton.textContent = "Unfollow";
+                }else{
+                    followbutton.textContent = "Follow";
+                }
+
+                followbutton.addEventListener('click', async () => {
+                    console.log(data.length)
+                    if(data && data.length > 0){
+                        const { data: { user } } = await supabase3.auth.getUser()
+                        const descriptionText = document.getElementById("descriptiontext");
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const userId2 = urlParams.get('uid');
+                        const { error } = await supabase3
+                                .from('FriendTable')
+                                .delete()
+                                .eq('UID1', user.id)
+                                .eq('UID2', userId2)
+                        if (error) {
+                            console.error('Supabase query error:', error.message);
+                        }
+                        followbutton.textContent = "Unfollow";
+                        console.log("unfollowed")
+                    }else{
+                        const { error } = await supabase3
+                                .from('FriendTable')
+                                .insert({UID1: user.id, UID2:userId2 })
+                        if (error) {
+                            console.error('Supabase query error:', error.message);
+                        }
+                        followbutton.textContent = "Follow";
+                        console.log("followed")
+                    }
+                    
+                });
+                
+            </script>
             
             <div id="popupForm" class="popup-form">
                 <form id="postForm">
@@ -353,12 +408,20 @@
                             likeSection.innerHTML = `
                                 <span class="like-count">${likes}</span> Likes
                                 <button class="like-button">Like</button>
+                                <button class="dislike-button">Dislike</button>
                             `;
 
                             const likeButton = likeSection.querySelector('.like-button');
                             const likeCountSpan = likeSection.querySelector('.like-count');
                             likeButton.addEventListener('click', async () => {
                                 const newLikes = parseInt(likeCountSpan.textContent, 10) + 1;
+                                likeCountSpan.textContent = newLikes; 
+                                await updateLikesInDatabase(content, newLikes); 
+                            });
+                            const dislikeButton = likeSection.querySelector('.dislike-button');
+                            const dislikeCountSpan = likeSection.querySelector('.like-count');
+                            dislikeButton.addEventListener('click', async () => {
+                                const newLikes = parseInt(likeCountSpan.textContent, 10) - 1;
                                 likeCountSpan.textContent = newLikes; 
                                 await updateLikesInDatabase(content, newLikes); 
                             });

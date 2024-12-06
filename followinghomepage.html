@@ -115,9 +115,9 @@
 <body>
     <div class = "backgroundblocks">
         <nav class= "homepagenav">
-            <div class = "FollowingPosts">
-                <button id="followingbutton" href="profile.html">See Following Posts</button>
-                <script type = "module" src="./js/seefollowing.js" defer></script>
+            <div class = "AllPosts">
+                <button id="allpostsbutton" href="profile.html">See All Posts</button>
+                <script type = "module" src="./js/allfollowing.js" defer></script>
             </div>
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="Search with username..." required>
@@ -155,8 +155,7 @@
             </a>
         </nav>
     </div>
-
-    <p class = allposttitle>All Posts</p>
+    <p class = allposttitle>Following Posts</p>
     <style>
         .allposttitle{
             font-size: 25px;
@@ -164,6 +163,7 @@
             color: #186C8F
         }
     </style>
+
     <div id="post-container"></div>
     
     <script type="module">
@@ -183,9 +183,21 @@
                 const loggedInUserId = user.id;
                 console.log(user.id)
 
+                const { data: friendConnections, error: friendError } = await supabase
+                    .from('FriendTable')
+                    .select('UID1, UID2')
+                    .or(`UID1.eq.${loggedInUserId},UID2.eq.${loggedInUserId}`);
+                console.log(friendConnections)
+                const connectedUIDs = new Set(
+                    friendConnections.flatMap(({ UID1, UID2 }) =>
+                        [UID1, UID2].filter((uid) => uid !== loggedInUserId)
+                    )
+                );
+
                 const { data: posts, error: postError } = await supabase
                     .from('Posts')
                     .select('*')
+                    .in('UID', [...connectedUIDs])
                     .neq('UID', loggedInUserId);
     
                 if (postError) throw postError;
@@ -274,20 +286,12 @@
             likeSection.innerHTML = `
                 <span class="like-count">${likes}</span> Likes
                 <button class="like-button">Like</button>
-                <button class="dislike-button">Dislike</button>
             `;
 
             const likeButton = likeSection.querySelector('.like-button');
             const likeCountSpan = likeSection.querySelector('.like-count');
             likeButton.addEventListener('click', async () => {
                 const newLikes = parseInt(likeCountSpan.textContent, 10) + 1;
-                likeCountSpan.textContent = newLikes; 
-                await updateLikesInDatabase(content, newLikes); 
-            });
-            const dislikeButton = likeSection.querySelector('.dislike-button');
-            const dislikeCountSpan = likeSection.querySelector('.like-count');
-            dislikeButton.addEventListener('click', async () => {
-                const newLikes = parseInt(likeCountSpan.textContent, 10) - 1;
                 likeCountSpan.textContent = newLikes; 
                 await updateLikesInDatabase(content, newLikes); 
             });

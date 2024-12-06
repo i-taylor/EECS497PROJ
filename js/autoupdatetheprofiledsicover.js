@@ -27,43 +27,61 @@ try {
     const { data: { user } } = await supabase.auth.getUser()
     
     const loggedInUserId = user.id;
-    console.log(user.id)
 
-    const { data, error } = await supabase
-            .from('Profile_Information')
-            .select('*')
-            .neq('UID', loggedInUserId); // Exclude user's profile
+    const { data: friendConnections, error: friendError } = await supabase
+        .from('FriendTable')
+        .select('UID1, UID2')
+        .or(`UID1.eq.${loggedInUserId},UID2.eq.${loggedInUserId}`);
+    console.log(friendConnections)
+    const connectedUIDs = new Set(
+        friendConnections.flatMap(({ UID1, UID2 }) =>
+            [UID1, UID2].filter((uid) => uid !== loggedInUserId)
+        )
+    );
+    console.log(connectedUIDs)
+
+    const { data: profiles, error: profileError } = await supabase
+        .from('Profile_Information')
+        .select('*')
+        .not('UID', 'in', `(${[...connectedUIDs].join(',')})`)
+        .neq('UID', loggedInUserId);
     
-    if (error) {
-        console.error('Supabase query error:', error.message);
-    }
+    console.log(profiles)
 
-    if(data[0].ProfilePicLink != null){
-        Profileimageone.src = data[0].ProfilePicLink
+    if(profiles[0] && profiles[0].ProfilePicLink != null){
+        Profileimageone.src = profiles[0].ProfilePicLink
     }
-    profileLinkOne.href = `./otherusersprofile.html?uid=${data[0].UID}`;
-    Usernameone.textContent = data[0].Username
+    profileLinkOne.href = `./otherusersprofile.html?uid=${profiles[0].UID}`;
+    Usernameone.textContent = profiles[0].Username
     console.log(profileLinkOne.href)
-    if(data[1].ProfilePicLink != null){
-        Profileimagetwo.src = data[1].ProfilePicLink
+
+
+    if(profiles[1] && profiles[1].ProfilePicLink != null){
+        Profileimagetwo.src = profiles[1].ProfilePicLink
     }
-    profileLinkTwo.href = `./otherusersprofile.html?uid=${data[1].UID}`;
-    Usernametwo.textContent = data[1].Username
-    if(data[2].ProfilePicLink != null){
-        Profileimagethree.src = data[2].ProfilePicLink
+    profileLinkTwo.href = `./otherusersprofile.html?uid=${profiles[1].UID}`;
+    Usernametwo.textContent = profiles[1].Username
+
+
+    if(profiles[2] && profiles[2].ProfilePicLink != null){
+        Profileimagethree.src = profiles[2].ProfilePicLink
     }
-    profileLinkThree.href = `./otherusersprofile.html?uid=${data[2].UID}`;
-    Usernamethree.textContent = data[2].Username
-    if(data[3].ProfilePicLink != null){
-        Profileimagefour.src = data[3].ProfilePicLink
+    profileLinkThree.href = `./otherusersprofile.html?uid=${profiles[2].UID}`;
+    Usernamethree.textContent = profiles[2].Username
+
+
+    if(profiles[3] && profiles[3].ProfilePicLink != null){
+        Profileimagefour.src = profiles[3].ProfilePicLink
     }
-    profileLinkFour.href = `./otherusersprofile.html?uid=${data[3].UID}`;
-    Usernamefour.textContent = data[3].Username
-    if(data[4].ProfilePicLink != null){
-        Profileimagefive.src = data[4].ProfilePicLink
+    profileLinkFour.href = `./otherusersprofile.html?uid=${profiles[3].UID}`;
+    Usernamefour.textContent = profiles[3].Username
+
+
+    if(profiles[4] && profiles[4].ProfilePicLink != null){
+        Profileimagefive.src = profiles[4].ProfilePicLink
     }
-    profileLinkFive.href = `./otherusersprofile.html?uid=${data[4].UID}`;
-    Usernamefive.textContent = data[4].Username
+    profileLinkFive.href = `./otherusersprofile.html?uid=${profiles[4].UID}`;
+    Usernamefive.textContent = profiles[4].Username
 
 
 } catch (error) {
