@@ -315,9 +315,16 @@
                                 contentDiv.textContent = 'Unsupported content type';
                             }
                     
+                            const likeSection = document.createElement('div');
+                            likeSection.className = 'post-likes';
+                            likeSection.innerHTML = `
+                                <span class="like-count">${likes}</span> Likes
+                    `;
+
                             card.appendChild(header);
                             card.appendChild(desc);
                             card.appendChild(contentDiv);
+                            card.appendChild(likeSection)
                     
                             return card;
                         }

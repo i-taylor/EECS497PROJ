@@ -98,6 +98,7 @@
             <button id = "searchForm" type="submit">Search</button>
         </div>
         <script type = "module">
+            console.log("here")
             import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
                 
                 const supabase1 = createClient(
@@ -111,12 +112,12 @@
                 const searchInput = document.getElementById("searchInput").value
                 
                 const { data: posts, error: postError } = await supabase1
-                                    .from('Posts')
+                                    .from('Profile_Information')
                                     .select('*')
                                     .eq('Username', searchInput);
-                
+
                 if (searchInput) {
-                    window.location.href = `./otherusersprofile.html?uid=${data[0].UID}`;
+                    window.location.href = `./NSIotherusersprofile.html?uid=${posts[0].UID}`;
                 } else {
                     alert("Please enter a search term.");
                 }
@@ -174,9 +175,16 @@
                 contentDiv.textContent = 'Unsupported content type';
             }
 
+            const likeSection = document.createElement('div');
+            likeSection.className = 'post-likes';
+            likeSection.innerHTML = `
+                <span class="like-count">${likes}</span> Likes
+    `;
+
             card.appendChild(header);
             card.appendChild(desc);
             card.appendChild(contentDiv);
+            card.appendChild(likeSection)
 
             return card;
         }

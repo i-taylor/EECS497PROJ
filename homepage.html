@@ -117,10 +117,36 @@
         <nav class= "homepagenav">
             <p class = "loginsignupprompt">Signed in Homepage!</p>
             <div class="search-container">
-                <div class="search-box">
-                    <input type="text" required placeholder="Search" id="searchInput">
-                </div>
+                <input type="text" id="searchInput" placeholder="Search with username..." required>
+                <button id = "searchForm" type="submit">Search</button>
             </div>
+            <script type = "module">
+                console.log("here")
+                import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+                    
+                    const supabase1 = createClient(
+                    'https://hztcovrucgaxplyruazp.supabase.co',
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
+                    );
+                
+                document.getElementById("searchForm").addEventListener("click", async()=> {
+                    event.preventDefault();
+                    
+                    const searchInput = document.getElementById("searchInput").value
+                    
+                    const { data: posts, error: postError } = await supabase1
+                                        .from('Profile_Information')
+                                        .select('*')
+                                        .eq('Username', searchInput);
+    
+                    if (searchInput) {
+                        window.location.href = `./SIotherusersprofile.html?uid=${posts[0].UID}`;
+                    } else {
+                        alert("Please enter a search term.");
+                    }
+                });
+    
+            </script>
             <a href="profile.html">
                 <img id = "profilepic" src = "./images/emptyprofile.png" alt = "background of profile pic">
             </a>
@@ -179,6 +205,20 @@
                 console.error('Error fetching posts or profiles:', error.message);
                 return [];
             }
+        }
+
+        async function updateLikesInDatabase(content, newLikes) {
+                try {
+                    const { data, error } = await supabase
+                        .from('Posts')
+                        .update({ Likes: newLikes })
+                        .eq('Content', content);
+                    if (error) {
+                        console.error('Error updating likes:', error);
+                    }
+                } catch (err) {
+                    console.error('Failed to update likes:', err);
+                }
         }
     
 

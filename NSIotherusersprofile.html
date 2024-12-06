@@ -181,11 +181,6 @@
                 }
 
             </script>
-            <div class = "gohome">
-                <button id="back_button" href="profile.html">Go Back</button>
-                <script type = "module" src="./js/back.js" defer></script>
-                <p class = "homepagesignifier">Go Back to Your Profile</p>
-            </div>
             
             <div class = "Descriptionbox">
                 <div class = "descriptionholder">
@@ -221,9 +216,9 @@
 
            
             <div class = "gohome">
-                <button id="back_button" href="profile.html">Go Back</button>
-                <script type = "module" src="./js/back.js" defer></script>
-                <p class = "homepagesignifier">Go Back to Your Profile</p>
+                <button id="back_button" href="index.html">Go Back</button>
+                <script type = "module" src="./js/NSIback.js" defer></script>
+                <p class = "homepagesignifier">Go Back to Homepage</p>
             </div>
             
             <div id="popupForm" class="popup-form">
@@ -296,20 +291,6 @@
                                 return [];
                             }
                         }
-
-                        async function updateLikesInDatabase(content, newLikes) {
-                                try {
-                                    const { data, error } = await supabase
-                                        .from('Posts')
-                                        .update({ Likes: newLikes })
-                                        .eq('Content', content);
-                                    if (error) {
-                                        console.error('Error updating likes:', error);
-                                    }
-                                } catch (err) {
-                                    console.error('Failed to update likes:', err);
-                                }
-                        }
                     
 
                         function createPostCard({ username, caption, content, likes, profilePic }) {
@@ -352,16 +333,7 @@
                             likeSection.className = 'post-likes';
                             likeSection.innerHTML = `
                                 <span class="like-count">${likes}</span> Likes
-                                <button class="like-button">Like</button>
-                            `;
-
-                            const likeButton = likeSection.querySelector('.like-button');
-                            const likeCountSpan = likeSection.querySelector('.like-count');
-                            likeButton.addEventListener('click', async () => {
-                                const newLikes = parseInt(likeCountSpan.textContent, 10) + 1;
-                                likeCountSpan.textContent = newLikes; 
-                                await updateLikesInDatabase(content, newLikes); 
-                            });
+                    `;
 
                             card.appendChild(header);
                             card.appendChild(desc);

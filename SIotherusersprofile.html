@@ -181,11 +181,6 @@
                 }
 
             </script>
-            <div class = "gohome">
-                <button id="back_button" href="profile.html">Go Back</button>
-                <script type = "module" src="./js/back.js" defer></script>
-                <p class = "homepagesignifier">Go Back to Your Profile</p>
-            </div>
             
             <div class = "Descriptionbox">
                 <div class = "descriptionholder">
@@ -221,9 +216,9 @@
 
            
             <div class = "gohome">
-                <button id="back_button" href="profile.html">Go Back</button>
-                <script type = "module" src="./js/back.js" defer></script>
-                <p class = "homepagesignifier">Go Back to Your Profile</p>
+                <button id="back_button" href="homepage.html">Go Back</button>
+                <script type = "module" src="./js/SIback.js" defer></script>
+                <p class = "homepagesignifier">Go Back to Homepage</p>
             </div>
             
             <div id="popupForm" class="popup-form">
@@ -310,6 +305,8 @@
                                     console.error('Failed to update likes:', err);
                                 }
                         }
+
+                        
                     
 
                         function createPostCard({ username, caption, content, likes, profilePic }) {
