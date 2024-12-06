@@ -94,8 +94,35 @@
     <nav class="homepagenav">
         <p class="loginsignupprompt">Not Signed in Homepage</p>
         <div class="search-container">
-            <input type="text" placeholder="Search" id="searchInput">
+            <input type="text" id="searchInput" placeholder="Search with username..." required>
+            <button id = "searchForm" type="submit">Search</button>
         </div>
+        <script type = "module">
+            import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+                
+                const supabase1 = createClient(
+                'https://hztcovrucgaxplyruazp.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
+                );
+            
+            document.getElementById("searchForm").addEventListener("click", async()=> {
+                event.preventDefault();
+                
+                const searchInput = document.getElementById("searchInput").value
+                
+                const { data: posts, error: postError } = await supabase1
+                                    .from('Posts')
+                                    .select('*')
+                                    .eq('Username', searchInput);
+                
+                if (searchInput) {
+                    window.location.href = `./otherusersprofile.html?uid=${data[0].UID}`;
+                } else {
+                    alert("Please enter a search term.");
+                }
+            });
+
+        </script>
         <a href="login.html">
             <img src="./images/profilebackground.png" alt="Profile">
         </a>

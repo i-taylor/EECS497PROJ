@@ -128,6 +128,7 @@
     </div>
 
     <div id="post-container"></div>
+    
     <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
@@ -216,10 +217,26 @@
             } else {
                 contentDiv.textContent = 'Unsupported content type';
             }
+
+            const likeSection = document.createElement('div');
+            likeSection.className = 'post-likes';
+            likeSection.innerHTML = `
+                <span class="like-count">${likes}</span> Likes
+                <button class="like-button">Like</button>
+            `;
+
+            const likeButton = likeSection.querySelector('.like-button');
+            const likeCountSpan = likeSection.querySelector('.like-count');
+            likeButton.addEventListener('click', async () => {
+                const newLikes = parseInt(likeCountSpan.textContent, 10) + 1;
+                likeCountSpan.textContent = newLikes; 
+                await updateLikesInDatabase(content, newLikes); 
+            });
     
             card.appendChild(header);
             card.appendChild(desc);
             card.appendChild(contentDiv);
+            card.appendChild(likeSection)
     
             return card;
         }
