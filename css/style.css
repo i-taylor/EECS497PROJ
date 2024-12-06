@@ -189,10 +189,15 @@ profile.html
     color: #FFFFFF;
 }
 
+#updatableusername {
+    font-size: 30px;
+    color: #186C8F;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 /* Profile Description Button */
 .profile-description {
     height: 25px;
-    padding: 8px 16px;
+    padding: 10px 16px;
     background-color: #93A7B0;
     color: white;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -206,7 +211,7 @@ profile.html
 
 /*####################################################################################
 
-index.html -> unlogged in homepage
+index.html -> logged in homepage
 
 ####################################################################################*/
 .homepagenav {
@@ -217,7 +222,7 @@ index.html -> unlogged in homepage
     background-color: #333;
     background-color: #D9D9D9;
     margin: 0px;
-    width: 100vw;
+    width: 95vw;
     height: auto;
 }
 
@@ -231,9 +236,10 @@ index.html -> unlogged in homepage
 }
 
 .homepagenav img {
-    width:30px;
-    height: auto;
-    padding-right: 10px;
+    width: 25px; /* Set a fixed width */
+    height: 25px; /* Set a fixed height to make it square */
+    border-radius: 50%; /* Make it circular */
+    
 }
 
 .homepagenav input::placeholder {

@@ -7,6 +7,110 @@
     <link rel="icon" href="./images/icon.png">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type = "module" src="./js/updateprofileimage.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: scroll;
+        }
+    
+        #post-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+            gap: 20px;
+            justify-items: center;
+            max-width: 1200px;
+            padding: 20px;
+            overflow-y: scroll;
+        }
+    
+        .post-card {
+            background: #326a8c;
+            color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+            padding: 16px;
+            box-sizing: border-box;
+            min-width: 250px;
+            max-width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 0; /* Don't let it grow unnecessarily */
+        }
+    
+        .post-card .post-header,
+        .post-card .post-description,
+        .post-card .post-content {
+            flex: 0 1 auto;
+        }
+    
+        .post-card:hover {
+            transform: scale(1.05);
+        }
+    
+        .post-header {
+            display: flex;
+            border-radius: 8px;
+        }
+    
+        .post-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+    
+        .post-description {
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+    
+        .post-content {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 12px;
+        }
+    
+        .post-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+    
+        .post-content audio,
+        .post-content video {
+            width: 100%;
+        }
+    
+        /* Responsive design tweaks */
+        @media (max-width: 992px) {
+            .post-card {
+                flex: 1 1 calc(33% - 20px);
+            }
+        }
+    
+        @media (max-width: 768px) {
+            .post-card {
+                flex: 1 1 calc(50% - 20px);
+            }
+        }
+    
+        @media (max-width: 480px) {
+            .post-card {
+                flex: 1 1 calc(100% - 20px);
+            }
+        }
+        </style>
 </head>
 <body>
     <div class = "backgroundblocks">
@@ -18,9 +122,87 @@
                 </div>
             </div>
             <a href="profile.html">
-                <img src = "./images/emptyprofile.png" alt = "background of profile pic">
+                <img id = "profilepic" src = "./images/emptyprofile.png" alt = "background of profile pic">
             </a>
         </nav>
     </div>
+
+    <div id="post-container"></div>
+    <script>
+        // Function to fetch and parse CSV
+        async function fetchAndParseCSV(csvFilePath) {
+            const response = await fetch(csvFilePath);
+            const csvText = await response.text();
+            return csvToJSON(csvText);
+        }
+
+        // Convert CSV text to JSON array
+        function csvToJSON(csvText) {
+            const lines = csvText.split("\n").filter(line => line.trim() !== "");
+            const headers = lines[0].split(",");
+            const data = lines.slice(1).map(line => {
+                const values = line.split(",");
+                return headers.reduce((obj, header, index) => {
+                    obj[header] = values[index];
+                    return obj;
+                }, {});
+            });
+            return data;
+        }
+
+        // Function to create a post card
+        function createPostCard({ username, profilePicture, postType, description, contentLink }) {
+            const card = document.createElement("div");
+            card.className = "post-card";
+
+            const header = document.createElement("div");
+            header.className = "post-header";
+            header.innerHTML = `
+                <img src="${profilePicture}" alt="${username}">
+                <p>${username}</p>
+            `;
+
+            const desc = document.createElement("div");
+            desc.className = "post-description";
+            desc.textContent = description;
+
+            const content = document.createElement("div");
+            content.className = "post-content";
+
+            if (postType === "Image") {
+                const img = document.createElement("img");
+                img.src = contentLink;
+                content.appendChild(img);
+            } else if (postType === "Music") {
+                const audio = document.createElement("audio");
+                audio.controls = true;
+                audio.src = contentLink;
+                content.appendChild(audio);
+            } else if (postType === "Video") {
+                const video = document.createElement("video");
+                video.controls = true;
+                video.src = contentLink;
+                content.appendChild(video);
+            }
+
+            card.appendChild(header);
+            card.appendChild(desc);
+            card.appendChild(content);
+            return card;
+        }
+
+        // Initialize Posts
+        async function initializePosts() {
+            const posts = await fetchAndParseCSV("friends.csv"); // Path to your CSV
+            const container = document.getElementById("post-container");
+
+            posts.forEach(post => {
+                const card = createPostCard(post);
+                container.appendChild(card);
+            });
+        }
+
+        initializePosts();
+    </script>
 </body>
 </html>

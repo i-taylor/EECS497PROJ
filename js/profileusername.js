@@ -15,11 +15,9 @@ try {
         .select('*')
         .eq('UID', user.id)
     console.log(data.length)
-    console.log(data[0].ProfilePicLink)
-    if((data.length != 0) && (data[0].ProfilePicLink != null)){
-        const profilePic = document.getElementById('profilepic');
-        profilePic.src = data[0].ProfilePicLink;
-    }
+    console.log(data[0].Username)
+    const Username = document.getElementById('updatableusername');
+    Username.textContent = data[0].Username;
     if (error) {
         console.error('Supabase query error:', error.message);
     }

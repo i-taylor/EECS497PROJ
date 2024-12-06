@@ -7,7 +7,10 @@
     <link rel="icon" href="./images/icon.png">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type = "module" src="./js/profile_image.js" defer></script>
-    
+    <script type = "module" src="./js/updateprofileimage.js"></script>
+    <script type = "module" src="./js/profileusername.js"></script>
+
+
 
     <a href="./homepage.html">
         <img src="./images/logo.png" alt="Logo" style="float: right" class="header-logo" />
@@ -24,19 +27,24 @@
                     <input type="file" id="imageUpload" accept="image/*" style="display: none;">
                 </div>
             </div>
+            
             <div class = "pd">
                 <button class="profile-description" id=profileDescription style="margin-left: auto">
                     <img src="./images/pencil_icon.png" class="edit-icon" height="15px" width="auto">
                     Create Profile Description
                 </button>
             </div>
-    
+            
+            
             <div class = "lo">
                 <!-- Logout Button -->
                 <button id="logoutButton">Logout</button>
                 <script type = "module" src="./js/logout.js" defer></script>
             </div>
         </nav>
+    </div>
+    <div class = "username">
+        <p id = "updatableusername"></p>
     </div>
     <div class = "main">
         <ul class = "profileul">
