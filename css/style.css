@@ -206,6 +206,10 @@ profile.html
     align-items: center;
     cursor: pointer;
 }
+#userInput {
+    display: none; /* Initially hidden */
+    margin-top: 10px;
+}
 
 /* Prof
 
