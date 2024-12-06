@@ -1,3 +1,6 @@
+//This javascript handles the actions when the login button is clicked
+//Verfiies in Supabase
+
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
 

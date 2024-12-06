@@ -1,0 +1,204 @@
+.p_navblock{
+    display: grid;
+    grid-template-columns: 1.5fr .7fr 3fr 1.2fr 1fr;
+    grid-template-rows: 1fr 50px 1fr 1fr 1fr 1fr 1fr;
+    width: 100%;
+    height: 100vh;
+}
+.profilepic {
+    background-color: #186C8F;
+    display: flex;
+    grid-column: 1;
+    grid-row: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.basicprofile {
+    opacity: 1;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.choice {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    z-index: 2;
+    pointer-events: auto;
+}
+.lo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.profilepic:hover .basicprofile {
+    opacity: 0.25;
+}
+
+.profilepic:hover .choice {
+    opacity: 1;
+}
+
+.username{
+    background-color: #186C8F;
+}
+
+#updatableusername {
+    font-size: 30px;
+    color: white;
+    grid-column: 1;
+    grid-row: 1;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: #186C8F;
+}
+
+.Descriptionbox{
+    background-color: #186C8F;
+    grid-column: 3;
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.descriptionholder{
+    text-align: center;
+    border: 5px solid white;
+    Padding: 10px;
+    width: 100%;
+    height: 80%
+}
+#descriptiontext{
+    border-color: white;
+    color: white;
+    font-size: 13px;
+    margin-top: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.pd{
+    background-color: #186C8F;
+    grid-column: 4;
+    grid-row: 1;
+}
+
+.gohome{
+    background-color: #186C8F;
+    grid-column: 5;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#profilepagelogo {
+    width: 150px;
+    max-width: 100%;
+    height:auto;
+    margin-bottom: 10px;
+}
+
+.homepagesignifier {
+    font-size: 16px; /* Adjust text size */
+    color: white; /* Text color */
+    margin: 0; /* Remove default margin */
+}
+
+
+.profile-description {
+    height: 25px;
+    padding: 10px 16px;
+    background-color: #93A7B0;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+#userInput {
+    display: none; /* Initially hidden */
+    margin-top: 10px;
+    grid-row: 1;
+    grid-column: 3;
+}
+
+#submitDescription{
+    display: none; /* Initially hidden */
+    margin-top: 10px;
+    grid-row: 1;
+    grid-column: 3;
+    
+}
+
+.discoversection{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    grid-column: 5;
+    grid-row: 3/-1;
+    background-color: #93A7B0;
+    overflow-y: scroll;
+}
+.discovertitleholder{
+    background-color: #93A7B0;
+    grid-column: 5;
+    grid-row: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.discoversectiontitle{
+    color: White;
+    text-decoration: underline;
+    font-size: 17px;
+    font-weight: 13px;
+}
+
+.profile1{
+    grid-column: 5;
+    grid-row: 3;
+}
+
+.profile2{
+    grid-column: 5;
+    grid-row: 4;
+}
+.profile3{
+    grid-column: 5;
+    grid-row: 5;
+}
+.profile4{
+    grid-column: 5;
+    grid-row: 6;
+}
+.profile5{
+    grid-column: 5;
+    grid-row: 7;
+}
+
+.discoverbasicprofile {
+    opacity: 1;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}

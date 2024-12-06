@@ -1,8 +1,9 @@
-// Get the logout button element
+//This javascript handles the actions when the "logout" button is clicked
+
+
 const logoutButton = document.getElementById('logoutButton');
 
-// Add click event listener to the logout button
+
 logoutButton.addEventListener('click', () => {
-  // Redirect to the login page
-  window.location.href = "login.html";  // Replace with your actual login page URL
+  window.location.href = "login.html";
 });

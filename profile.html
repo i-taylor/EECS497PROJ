@@ -3,23 +3,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/profile.css">
     <link rel="icon" href="./images/icon.png">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type = "module" src="./js/profile_image.js" defer></script>
-    <script type = "module" src="./js/updateprofileimage.js"></script>
-    <script type = "module" src="./js/profileusername.js"></script>
-
-
-
-    <a href="./homepage.html">
-        <img src="./images/logo.png" alt="Logo" style="float: right" class="header-logo" />
-    </a>
-
+    <script type = "module" src="./js/autoupdatetheprofiledsicover.js"></script>
+    <script type = "module" src="./js/autoupdateprofileimage.js"></script>
+    <script type = "module" src="./js/autoupdateprofiledesc.js"></script>
+    <script type = "module" src="./js/autoupdateprofileusername.js"></script>
+    <script type = "module" src="./js/Opendescriptionbox.js" defer></script>
+    <script type = "module" src="./js/Closedescriptionbox.js" defer></script>
 </head>
 <body>
     <div class = "p_navblock"> 
-        <nav class = "profilenav">
             <div class = "profilepic">
                 <img id = "profilepic" class = "basicprofile" src = "./images/emptyprofile.png" alt = "background of profile pic">
                 <div class = "choice">
@@ -27,51 +23,69 @@
                     <input type="file" id="imageUpload" accept="image/*" style="display: none;">
                 </div>
             </div>
+            <div class = "username">
+                <p id = "updatableusername"></p>
+            </div>
             
+            <div class = "Descriptionbox">
+                <div class = "descriptionholder">
+                    <p id = "descriptiontext"></p>
+                </div>
+            </div>
+
             <div class = "pd">
                 <div id="inputBox">
                     <textarea id="userInput" rows="4" cols="50" placeholder="Enter your text here..."></textarea>
                     <br>
                     <button class="profile-description" id=profileDescription style="margin-left: auto">
                         <img src="./images/pencil_icon.png" class="edit-icon" height="15px" width="auto">
-                        Create Profile Description
+                        Edit Profile Description
+                    </button>
+                    <button class="submit-description" id="submitDescription">
+                        Submit Description
                     </button>
                 </div>
-                
             </div>
-            
+            <div class = "gohome">
+                <a href="./homepage.html">
+                    <img id = "profilepagelogo" src="./images/logo.png" alt="Logo" style="float: right" class="header-logo" />
+                </a>
+                <p class = "homepagesignifier">Click Logo Above to Navigate to Home Page</p>
+            </div>
             
             <div class = "lo">
                 <!-- Logout Button -->
                 <button id="logoutButton">Logout</button>
                 <script type = "module" src="./js/logout.js" defer></script>
             </div>
-        </nav>
+            <div class = "discovertitleholder">
+                <p class = "discoversectiontitle">
+                    Discovery Section
+                </p>
+            </div>
+            
+            <div class = "discoversection">
+                <div class = "profile1">
+                    <img id = "discoverprofilepic1" class = "discoverbasicprofile" src = "./images/emptyprofile.png" alt = "background of profile pic">
+                </div>
+                <p id = "username1"></p>
+                <div class = "profile2">
+                    <img id = "discoverprofilepic2" class = "discoverbasicprofile" src = "./images/emptyprofile.png" alt = "background of profile pic">
+                </div>
+                <p id = "username2"></p>
+                <div class = "profile3">
+                    <img id = "discoverprofilepic3" class = "discoverbasicprofile" src = "./images/emptyprofile.png" alt = "background of profile pic">
+                </div>
+                <p id = "username3"></p>
+                <div class = "profile4">
+                    <img id = "discoverprofilepic4" class = "discoverbasicprofile" src = "./images/emptyprofile.png" alt = "background of profile pic">
+                </div>
+                <p id = "username4"></p>
+                <div class = "profile5">
+                    <img id = "discoverprofilepic5" class = "discoverbasicprofile" src = "./images/emptyprofile.png" alt = "background of profile pic">
+                </div>
+                <p id = "username5"></p>
+            </div>
     </div>
-    <div class = "username">
-        <p id = "updatableusername"></p>
-    </div>
-    <div class = "main">
-        <ul class = "profileul">
-            <li class = profileli>Connect</li>
-            <li class = profileli>Follow</li>
-            <li class = profileli>Message</li>
-        </ul>
-        <ul>
-            <li>k</li>
-            <li>k</li>
-            <li>k</li>
-            <li>k</li>
-            <li>k</li>
-            <li>k</li>
-            <li>k</li>
-            <li>k</li>
-            <li>k</li>
-
-            <li>k</li>
-
-        </ul>
-    </div>
-
 </body>
 </html>
