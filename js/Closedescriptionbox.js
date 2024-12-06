@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     userInput.style.display = "none";
-    console.log(descriptionText.style.display)
     document.getElementById("submitDescription").addEventListener("click", async(event) => {
         descriptionText.style.display = "block";
         userInput.style.display = "none";

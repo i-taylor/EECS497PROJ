@@ -13,6 +13,7 @@
     <script type = "module" src="./js/autoupdateprofileusername.js"></script>
     <script type = "module" src="./js/Opendescriptionbox.js" defer></script>
     <script type = "module" src="./js/Closedescriptionbox.js" defer></script>
+    <script type = "module" src="./js/createpost.js" defer></script>
 </head>
 <body>
     <div class = "p_navblock"> 
@@ -54,10 +55,33 @@
             </div>
             
             <div class = "lo">
-                <!-- Logout Button -->
                 <button id="logoutButton">Logout</button>
                 <script type = "module" src="./js/logout.js" defer></script>
             </div>
+
+
+
+
+            <div class = "createpost">
+                <button id="createpostbutton">Create Post</button>
+            </div>
+
+            <div class = "profilepostcontainer">
+
+            </div>
+            <div id="popupForm" class="popup-form">
+                <form id="postForm">
+                  <input type="file" id="posstdataUpload" name="PostUpload" accept="image/*" required>
+                  <br>
+                  <label for="caption">Caption:</label>
+                  <textarea id="caption" name="caption" required></textarea>
+                  <br>
+                  <button type="submit" id = "submitpost">Submit</button>
+                </form>
+              </div>
+
+
+              
             <div class = "discovertitleholder">
                 <p class = "discoversectiontitle">
                     Discovery Section

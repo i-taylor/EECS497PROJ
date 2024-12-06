@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     userInput.style.display = "none";
-    console.log(descriptionText.style.display)
     profileDescriptionButton.addEventListener("click", () => {
       descriptionText.style.display = "none";
       userInput.style.display = "block";

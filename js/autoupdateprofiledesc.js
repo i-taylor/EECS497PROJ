@@ -8,9 +8,9 @@ const supabase = createClient(
 
 try {
     const descriptionText = document.getElementById("descriptiontext");
-    console.log("hi")
+
     const { data: { user } } = await supabase.auth.getUser()
-    console.log(user.id)
+
     const { data, error } = await supabase
             .from('Profile_Information')
             .select('*')

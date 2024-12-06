@@ -7,16 +7,15 @@ const supabase = createClient(
 );
 
 try {
-    console.log("hi")
+
     const { data: { user } } = await supabase.auth.getUser()
-    console.log(user.id)
+
     const userId = user.id
     const { data, error } = await supabase
         .from('Profile_Information')
         .select('*')
         .eq('UID', user.id)
-    console.log(data.length)
-    console.log(data[0].Username)
+
     const Username = document.getElementById('updatableusername');
     Username.textContent = data[0].Username;
     if (error) {

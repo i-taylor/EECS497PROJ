@@ -19,39 +19,39 @@ try {
     const Usernamefive = document.getElementById("username5");
 
     const { data: { user } } = await supabase.auth.getUser()
-    console.log(user.id)
+
     const { data, error } = await supabase
             .from('Profile_Information')
             .select('*')
     if (error) {
         console.error('Supabase query error:', error.message);
     }
-    console.log(data[0])
+
     if(data[0].ProfilePicLink != null){
         Profileimageone.src = data[0].ProfilePicLink
     }
-    console.log(data[1])
+
     Usernameone.textContent = data[0].Username
     if(data[1].ProfilePicLink != null){
         Profileimagetwo.src = data[1].ProfilePicLink
     }
-    console.log(data[2])
+
     Usernametwo.textContent = data[1].Username
     if(data[2].ProfilePicLink != null){
         Profileimagethree.src = data[2].ProfilePicLink
     }
-    console.log(data[3])
+
     Usernamethree.textContent = data[2].Username
     if(data[3].ProfilePicLink != null){
         Profileimagefour.src = data[3].ProfilePicLink
     }
-    console.log(data[4])
+ 
     Usernamefour.textContent = data[3].Username
     if(data[4].ProfilePicLink != null){
         Profileimagefive.src = data[4].ProfilePicLink
     }
     Usernamefive.textContent = data[4].Username
-    console.log("hi")
+
 
 } catch (error) {
     console.error('Error updating discovery profiles:', error.message);
