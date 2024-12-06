@@ -3,18 +3,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <link rel="stylesheet" href="./css/profile.css">
+    <link rel="stylesheet" href="./css/otherprofile.css">
     <link rel="icon" href="./images/icon.png">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script type = "module" src="./js/profile_image.js" defer></script>
-    <script type = "module" src="./js/autoupdatetheprofiledsicover.js"></script>
-    <script type = "module" src="./js/autoupdateprofileimage.js"></script>
-    <script type = "module" src="./js/autoupdateprofiledesc.js"></script>
-    <script type = "module" src="./js/autoupdateprofileusername.js"></script>
-    <script type = "modele" src = "./js/autoputpostincards.js"></script>
-    <script type = "module" src="./js/Opendescriptionbox.js" defer></script>
-    <script type = "module" src="./js/Closedescriptionbox.js" defer></script>
-    <script type = "module" src="./js/createpost.js" defer></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -129,48 +120,106 @@
                     <input type="file" id="imageUpload" accept="image/*" style="display: none;">
                 </div>
             </div>
+            <script type="module">
+            
+                import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+                const supabase4 = createClient(
+                'https://hztcovrucgaxplyruazp.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
+                );
+
+                try {
+
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const userId = urlParams.get('uid');
+                        const { data, error } = await supabase4
+                            .from('Profile_Information')
+                            .select('*')
+                            .eq('UID', userId)
+
+                        if((data.length != 0) && (data[0].ProfilePicLink != null)){
+                            const profilePic = document.getElementById('profilepic');
+                            profilePic.src = data[0].ProfilePicLink;
+                        }
+                        if (error) {
+                            console.error('Supabase query error:', error.message);
+                        }
+                        
+                    } catch (error) {
+                        console.error('Error updating profile picture:', error.message);
+                    }
+            </script>
+
+
             <div class = "username">
                 <p id = "updatableusername"></p>
             </div>
+            <script type="module">
+                import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+                
+                const supabase1 = createClient(
+                'https://hztcovrucgaxplyruazp.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
+                );
+                try {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const userId = urlParams.get('uid');
+                    const { data, error } = await supabase1
+                        .from('Profile_Information')
+                        .select('*')
+                        .eq('UID', userId)
+
+                    const Username = document.getElementById('updatableusername');
+                    Username.textContent = data[0].Username;
+                    if (error) {
+                        console.error('Supabase query error:', error.message);
+                    }
+                    
+                } catch (error) {
+                    console.error('Error updating profile picture:', error.message);
+                }
+
+            </script>
             
             <div class = "Descriptionbox">
                 <div class = "descriptionholder">
                     <p id = "descriptiontext"></p>
                 </div>
             </div>
+            <script type="module">
+                import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-            <div class = "pd">
-                <div id="inputBox">
-                    <textarea id="userInput" rows="4" cols="50" placeholder="Enter your text here..."></textarea>
-                    <br>
-                    <button class="profile-description" id=profileDescription style="margin-left: auto">
-                        <img src="./images/pencil_icon.png" class="edit-icon" height="15px" width="auto">
-                        Edit Profile Description
-                    </button>
-                    <button class="submit-description" id="submitDescription">
-                        Submit Description
-                    </button>
-                </div>
-            </div>
+                const supabase2 = createClient(
+                'https://hztcovrucgaxplyruazp.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
+                );
+
+                try {
+                    const descriptionText = document.getElementById("descriptiontext");
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const userId = urlParams.get('uid');
+                    const { data, error } = await supabase2
+                            .from('Profile_Information')
+                            .select('*')
+                            .eq('UID', userId)
+                    if (error) {
+                        console.error('Supabase query error:', error.message);
+                    }
+                    descriptionText.textContent = data[0].ProfileDesc;
+                } catch (error) {
+                    console.error('Error updating profile desc:', error.message);
+                }
+            </script>
+
+
+
+           
             <div class = "gohome">
-                <a href="./homepage.html">
-                    <img id = "profilepagelogo" src="./images/logo.png" alt="Logo" style="float: right" class="header-logo" />
-                </a>
-                <p class = "homepagesignifier">Click Logo Above to Navigate to Home Page</p>
+                <button id="back_button" href="profile.html">Go Back</button>
+                <script type = "module" src="./js/back.js" defer></script>
+                <p class = "homepagesignifier">Go Back to Your Profile</p>
             </div>
-            
-            <div class = "lo">
-                <button id="logoutButton">Logout</button>
-                <script type = "module" src="./js/logout.js" defer></script>
-            </div>
-
-
-
-            
-            <div class = "createpost">
-                <button id="createpostbutton">Create Post</button>
-            </div>
-            
             
             <div id="popupForm" class="popup-form">
                 <form id="postForm">
@@ -185,45 +234,7 @@
 
 
               
-            <div class = "discovertitleholder">
-                <p class = "discoversectiontitle">
-                    Discovery Section
-                </p>
-            </div>
             
-            <div class = "discoversection">
-                <div class = "profile1">
-                    <a href="./otherusersprofile.html" id = "link1">
-                        <img id = "discoverprofilepic1" class = "discoverbasicprofile" src = "./images/emptyprofile.png" alt = "background of profile pic">
-                    </a>
-                </div>
-                <p id = "username1"></p>
-                <div class = "profile2">
-                    <a href="./otherusersprofile.html" id = "link2">
-                        <img id = "discoverprofilepic2" class = "discoverbasicprofile" src = "./images/emptyprofile.png" alt = "background of profile pic">
-                    </a>
-                </div>
-                <p id = "username2"></p>
-                <div class = "profile3">
-                    <a href="./otherusersprofile.html" id = "link3">
-                        <img id = "discoverprofilepic3" class = "discoverbasicprofile" src = "./images/emptyprofile.png" alt = "background of profile pic">
-                    </a>
-                </div>
-                <p id = "username3"></p>
-                <div class = "profile4">
-                    <a href="./otherusersprofile.html" id = "link4">
-                        <img id = "discoverprofilepic4" class = "discoverbasicprofile" src = "./images/emptyprofile.png" alt = "background of profile pic">
-                    </a>
-                </div>
-                <p id = "username4"></p>
-                <div class = "profile5">
-                    <a href="./otherusersprofile.html" id = "link5">
-                        <img id = "discoverprofilepic5" class = "discoverbasicprofile" src = "./images/emptyprofile.png" alt = "background of profile pic">
-                    </a>
-                </div>
-                <p id = "username5"></p>
-            </div>
-            <body>
                 <div class = "postprofilepage" id = "profilepostcontainer">
                 </div>
                 <script type="module">
@@ -239,6 +250,9 @@
                             try {
 
                                 const { data: { user } } = await supabase.auth.getUser()
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const userId = urlParams.get('uid');
+                                const { data, error } = await supabase
                     
                                 const loggedInUserId = user.id;
                                 console.log(user.id)
@@ -246,7 +260,7 @@
                                 const { data: posts, error: postError } = await supabase
                                     .from('Posts')
                                     .select('*')
-                                    .eq('UID', loggedInUserId); 
+                                    .eq('UID', userId); 
                     
                                 if (postError) throw postError;
                     
@@ -256,7 +270,7 @@
                                 const { data: profiles, error: profileError } = await supabase
                                     .from('Profile_Information')
                                     .select('*');
-                    
+                        
                                 if (profileError) throw profileError;
                     
                                 console.log('Profiles:', profiles); 

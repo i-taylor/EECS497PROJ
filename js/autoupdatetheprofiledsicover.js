@@ -17,6 +17,12 @@ try {
     const Usernamethree = document.getElementById("username3");
     const Usernamefour = document.getElementById("username4");
     const Usernamefive = document.getElementById("username5");
+    const profileLinkOne = document.getElementById("link1");
+    const profileLinkTwo = document.getElementById("link2");
+    const profileLinkThree = document.getElementById("link3");
+    const profileLinkFour = document.getElementById("link4");
+    const profileLinkFive = document.getElementById("link5");
+    
 
     const { data: { user } } = await supabase.auth.getUser()
     
@@ -35,26 +41,28 @@ try {
     if(data[0].ProfilePicLink != null){
         Profileimageone.src = data[0].ProfilePicLink
     }
-
+    profileLinkOne.href = `./otherusersprofile.html?uid=${data[0].UID}`;
     Usernameone.textContent = data[0].Username
+    console.log(profileLinkOne.href)
     if(data[1].ProfilePicLink != null){
         Profileimagetwo.src = data[1].ProfilePicLink
     }
-
+    profileLinkTwo.href = `./otherusersprofile.html?uid=${data[1].UID}`;
     Usernametwo.textContent = data[1].Username
     if(data[2].ProfilePicLink != null){
         Profileimagethree.src = data[2].ProfilePicLink
     }
-
+    profileLinkThree.href = `./otherusersprofile.html?uid=${data[2].UID}`;
     Usernamethree.textContent = data[2].Username
     if(data[3].ProfilePicLink != null){
         Profileimagefour.src = data[3].ProfilePicLink
     }
- 
+    profileLinkFour.href = `./otherusersprofile.html?uid=${data[3].UID}`;
     Usernamefour.textContent = data[3].Username
     if(data[4].ProfilePicLink != null){
         Profileimagefive.src = data[4].ProfilePicLink
     }
+    profileLinkFive.href = `./otherusersprofile.html?uid=${data[4].UID}`;
     Usernamefive.textContent = data[4].Username
 
 

@@ -110,7 +110,7 @@
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
     );
 
-        // Function to create a post card
+
         function createPostCard({ username, caption, content, likes, profilePic }) {
             const card = document.createElement('div');
             card.className = 'post-card';
@@ -154,23 +154,23 @@
             return card;
         }
 
-        // Function to fetch posts and profiles from Supabase
+
         async function fetchPostsAndProfiles() {
-            // Fetch all posts
+
             const { data: posts, error: postError } = await supabase.from('Posts').select('*');
             if (postError) {
                 console.error('Error fetching posts:', postError.message);
                 return [];
             }
 
-            // Fetch all profiles
+
             const { data: profiles, error: profileError } = await supabase.from('Profile_Information').select('*');
             if (profileError) {
                 console.error('Error fetching profiles:', profileError.message);
                 return [];
             }
 
-            // Combine post and profile data
+
             return posts.map(post => {
                 const profile = profiles.find(profile => profile.UID === post.UID);
                 return {
@@ -183,7 +183,7 @@
             });
         }
 
-        // Initialize posts
+
         async function initializePosts() {
             const postsWithProfiles = await fetchPostsAndProfiles();
             const container = document.getElementById('post-container');

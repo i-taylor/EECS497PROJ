@@ -139,31 +139,31 @@
     
         async function fetchFilteredPosts() {
             try {
-                // Get the logged-in user
+
                 const { data: { user } } = await supabase.auth.getUser()
     
                 const loggedInUserId = user.id;
                 console.log(user.id)
-                // Fetch all posts excluding the logged-in user's posts
+
                 const { data: posts, error: postError } = await supabase
                     .from('Posts')
                     .select('*')
-                    .neq('UID', loggedInUserId); // Exclude user's posts
+                    .neq('UID', loggedInUserId);
     
                 if (postError) throw postError;
     
-                console.log('Filtered Posts:', posts); // Debug
+                console.log('Filtered Posts:', posts); 
     
-                // Fetch all profiles
+
                 const { data: profiles, error: profileError } = await supabase
                     .from('Profile_Information')
                     .select('*');
     
                 if (profileError) throw profileError;
     
-                console.log('Profiles:', profiles); // Debug
+                console.log('Profiles:', profiles); 
     
-                // Combine post and profile data
+
                 return posts.map(post => {
                     const profile = profiles.find(profile => profile.UID === post.UID);
                     return {
@@ -180,7 +180,7 @@
             }
         }
     
-        // Function to create a post card
+
         function createPostCard({ username, caption, content, likes, profilePic }) {
             const card = document.createElement('div');
             card.className = 'post-card';
@@ -224,7 +224,7 @@
             return card;
         }
     
-        // Initialize posts
+
         async function initializePosts() {
             const filteredPosts = await fetchFilteredPosts();
             const container = document.getElementById('post-container');
