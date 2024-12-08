@@ -33,7 +33,7 @@
             color: #fff;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
+            overflow: visible;
             transition: transform 0.2s ease;
             padding: 16px;
             box-sizing: border-box;
@@ -43,6 +43,27 @@
             display: flex;
             flex-direction: column;
             flex-grow: 0; /* Don't let it grow unnecessarily */
+        }
+        .post-footer {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+        }
+
+        .comment-button {
+            margin: 10px;
+            background-color:  #0f4e66;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .comment-button:hover {
+            background-color: #0f4e66;
         }
     
         .post-card .post-header,
@@ -113,65 +134,35 @@
 </head>
 <body>
     <div class = "p_navblock"> 
-            <div class = "profilepic">
-                <img id = "profilepic" class = "basicprofile" src = "./images/emptyprofile.png" alt = "background of profile pic">
-                <div class = "choice">
-                    <button class="upload-button" id="uploadButton">Upload Image</button>
-                    <input type="file" id="imageUpload" accept="image/*" style="display: none;">
-                </div>
+        <div class = "profilepic">
+            <img id = "profilepic" class = "basicprofile" src = "./images/emptyprofile.png" alt = "background of profile pic">
+            <div class = "choice">
+                <button class="upload-button" id="uploadButton">Upload Image</button>
+                <input type="file" id="imageUpload" accept="image/*" style="display: none;">
             </div>
-            <script type="module">
-            
-                import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+        </div>
+        <script type="module">
+        
+            import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-                const supabase4 = createClient(
-                'https://hztcovrucgaxplyruazp.supabase.co',
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
-                );
+            const supabase4 = createClient(
+            'https://hztcovrucgaxplyruazp.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
+            );
 
-                try {
+            try {
 
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const userId = urlParams.get('uid');
-                        const { data, error } = await supabase4
-                            .from('Profile_Information')
-                            .select('*')
-                            .eq('UID', userId)
-
-                        if((data.length != 0) && (data[0].ProfilePicLink != null)){
-                            const profilePic = document.getElementById('profilepic');
-                            profilePic.src = data[0].ProfilePicLink;
-                        }
-                        if (error) {
-                            console.error('Supabase query error:', error.message);
-                        }
-                        
-                    } catch (error) {
-                        console.error('Error updating profile picture:', error.message);
-                    }
-            </script>
-
-
-            <div class = "username">
-                <p id = "updatableusername"></p>
-            </div>
-            <script type="module">
-                import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-                
-                const supabase1 = createClient(
-                'https://hztcovrucgaxplyruazp.supabase.co',
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
-                );
-                try {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const userId = urlParams.get('uid');
-                    const { data, error } = await supabase1
+                const urlParams = new URLSearchParams(window.location.search);
+                const userId = urlParams.get('uid');
+                    const { data, error } = await supabase4
                         .from('Profile_Information')
                         .select('*')
                         .eq('UID', userId)
 
-                    const Username = document.getElementById('updatableusername');
-                    Username.textContent = data[0].Username;
+                    if((data.length != 0) && (data[0].ProfilePicLink != null)){
+                        const profilePic = document.getElementById('profilepic');
+                        profilePic.src = data[0].ProfilePicLink;
+                    }
                     if (error) {
                         console.error('Supabase query error:', error.message);
                     }
@@ -179,176 +170,228 @@
                 } catch (error) {
                     console.error('Error updating profile picture:', error.message);
                 }
+        </script>
 
-            </script>
+
+        <div class = "username">
+            <p id = "updatableusername"></p>
+        </div>
+        <script type="module">
+            import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
             
-            <div class = "Descriptionbox">
-                <div class = "descriptionholder">
-                    <p id = "descriptiontext"></p>
-                </div>
-            </div>
-            <script type="module">
-                import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+            const supabase1 = createClient(
+            'https://hztcovrucgaxplyruazp.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
+            );
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const userId = urlParams.get('uid');
+                const { data, error } = await supabase1
+                    .from('Profile_Information')
+                    .select('*')
+                    .eq('UID', userId)
 
-                const supabase2 = createClient(
-                'https://hztcovrucgaxplyruazp.supabase.co',
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
-                );
-
-                try {
-                    const descriptionText = document.getElementById("descriptiontext");
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const userId = urlParams.get('uid');
-                    const { data, error } = await supabase2
-                            .from('Profile_Information')
-                            .select('*')
-                            .eq('UID', userId)
-                    if (error) {
-                        console.error('Supabase query error:', error.message);
-                    }
-                    descriptionText.textContent = data[0].ProfileDesc;
-                } catch (error) {
-                    console.error('Error updating profile desc:', error.message);
+                const Username = document.getElementById('updatableusername');
+                Username.textContent = data[0].Username;
+                if (error) {
+                    console.error('Supabase query error:', error.message);
                 }
-            </script>
+                
+            } catch (error) {
+                console.error('Error updating profile picture:', error.message);
+            }
 
-<div class = "followuserbutton">
-    <button id="followbutton">Follow</button>
-</div>
+        </script>
+        <div class = "gohome">
+            <button id="back_button" href="profile.html">Go Back</button>
+            <script type = "module" src="./js/back.js" defer></script>
+            <p class = "homepagesignifier">Go Back to Your Profile</p>
+        </div>
+        
+        <div class = "Descriptionbox">
+            <div class = "descriptionholder">
+                <p id = "descriptiontext"></p>
+            </div>
+        </div>
+        <script type="module">
+            import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-<script type = "module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+            const supabase2 = createClient(
+            'https://hztcovrucgaxplyruazp.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
+            );
 
-    const supabase3 = createClient(
-    'https://hztcovrucgaxplyruazp.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
-    );
-    const { data: { user } } = await supabase3.auth.getUser()
-    const descriptionText = document.getElementById("descriptiontext");
-    const urlParams = new URLSearchParams(window.location.search);
-    const userId2 = urlParams.get('uid');
-    console.log(user.id)
-    console.log(userId2)
-    const { data } = await supabase3
-            .from('FriendTable')
-            .select('*')
-            .eq('UID1', user.id)
-            .eq('UID2', userId2)
-    console.log(data)
-    if((data && data.length > 0)){
-        followbutton.textContent = "Unfollow";
-    }else{
-        followbutton.textContent = "Follow";
-    }
+            try {
+                const descriptionText = document.getElementById("descriptiontext");
+                const urlParams = new URLSearchParams(window.location.search);
+                const userId = urlParams.get('uid');
+                const { data, error } = await supabase2
+                        .from('Profile_Information')
+                        .select('*')
+                        .eq('UID', userId)
+                if (error) {
+                    console.error('Supabase query error:', error.message);
+                }
+                descriptionText.textContent = data[0].ProfileDesc;
+            } catch (error) {
+                console.error('Error updating profile desc:', error.message);
+            }
+        </script>
 
-    followbutton.addEventListener('click', async () => {
-        console.log(data.length)
-        if(data && data.length > 0){
+
+
+       
+        <div class = "followuserbutton">
+            <button id="followbutton">Follow</button>
+        </div>
+
+        <script type = "module">
+            import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+            const supabase3 = createClient(
+            'https://hztcovrucgaxplyruazp.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
+            );
             const { data: { user } } = await supabase3.auth.getUser()
             const descriptionText = document.getElementById("descriptiontext");
             const urlParams = new URLSearchParams(window.location.search);
             const userId2 = urlParams.get('uid');
-            const { error } = await supabase3
+            console.log(user.id)
+            console.log(userId2)
+            const { data } = await supabase3
                     .from('FriendTable')
-                    .delete()
+                    .select('*')
                     .eq('UID1', user.id)
                     .eq('UID2', userId2)
-            if (error) {
-                console.error('Supabase query error:', error.message);
+            console.log(data)
+            if((data && data.length > 0)){
+                followbutton.textContent = "Unfollow";
+            }else{
+                followbutton.textContent = "Follow";
             }
-            followbutton.textContent = "Unfollow";
-            console.log("unfollowed")
-        }else{
-            const { error } = await supabase3
-                    .from('FriendTable')
-                    .insert({UID1: user.id, UID2:userId2 })
-            if (error) {
-                console.error('Supabase query error:', error.message);
-            }
-            followbutton.textContent = "Follow";
-            console.log("followed")
-        }
+
+            followbutton.addEventListener('click', async () => {
+                console.log(data.length)
+                if(data && data.length > 0){
+                    const { data: { user } } = await supabase3.auth.getUser()
+                    const descriptionText = document.getElementById("descriptiontext");
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const userId2 = urlParams.get('uid');
+                    const { error } = await supabase3
+                            .from('FriendTable')
+                            .delete()
+                            .eq('UID1', user.id)
+                            .eq('UID2', userId2)
+                    if (error) {
+                        console.error('Supabase query error:', error.message);
+                    }
+                    followbutton.textContent = "Unfollow";
+                    console.log("unfollowed")
+                }else{
+                    const { error } = await supabase3
+                            .from('FriendTable')
+                            .insert({UID1: user.id, UID2:userId2 })
+                    if (error) {
+                        console.error('Supabase query error:', error.message);
+                    }
+                    followbutton.textContent = "Follow";
+                    console.log("followed")
+                }
+                
+            });
+            
+        </script>
         
-    });
-    
-</script>
+        <div id="popupForm" class="popup-form">
+            <form id="postForm">
+              <input type="file" id="posstdataUpload" name="PostUpload" accept="image/*" required>
+              <br>
+              <label for="caption">Caption:</label>
+              <textarea id="caption" name="caption" required></textarea>
+              <br>
+              <button type="submit" id = "submitpost">Submit</button>
+            </form>
+          </div>
 
 
-
-           
-            <div class = "gohome">
-                <button id="back_button" href="homepage.html">Go Back</button>
-                <script type = "module" src="./js/SIback.js" defer></script>
-                <p class = "homepagesignifier">Go Back to Homepage</p>
+          
+        
+            <div class = "postprofilepage" id = "profilepostcontainer">
             </div>
+            <script type="module">
+                import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
             
-            <div id="popupForm" class="popup-form">
-                <form id="postForm">
-                  <input type="file" id="posstdataUpload" name="PostUpload" accept="image/*" required>
-                  <br>
-                  <label for="caption">Caption:</label>
-                  <textarea id="caption" name="caption" required></textarea>
-                  <br>
-                  <button type="submit" id = "submitpost">Submit</button>
-                </form>
-              </div>
-
-
-              
+                const supabase = createClient(
+                'https://hztcovrucgaxplyruazp.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
+                );
             
-                <div class = "postprofilepage" id = "profilepostcontainer">
-                </div>
-                <script type="module">
-                    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
                 
-                    const supabase = createClient(
-                    'https://hztcovrucgaxplyruazp.supabase.co',
-                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
-                    );
+                    async function fetchFilteredPosts() {
+                        try {
+
+                            const { data: { user } } = await supabase.auth.getUser()
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const userId = urlParams.get('uid');
+                            const { data, error } = await supabase
                 
+                            const loggedInUserId = user.id;
+                            console.log(user.id)
+
+                            const { data: posts, error: postError } = await supabase
+                                .from('Posts')
+                                .select('*')
+                                .eq('UID', userId); 
+                
+                            if (postError) throw postError;
+                
+                            console.log('Filtered Posts:', posts);
+                
+
+                            const { data: profiles, error: profileError } = await supabase
+                                .from('Profile_Information')
+                                .select('*');
                     
-                        async function fetchFilteredPosts() {
+                            if (profileError) throw profileError;
+                
+                            console.log('Profiles:', profiles); 
+                
+
+                            return posts.map(post => {
+                                const profile = profiles.find(profile => profile.UID === post.UID);
+                                return {
+                                    username: profile?.Username || 'Unknown',
+                                    profilePic: profile?.ProfilePicLink || './images/default-profile.png',
+                                    caption: post.Caption,
+                                    content: post.Content,
+                                    likes: post.Likes
+                                };
+                            });
+                        } catch (error) {
+                            console.error('Error fetching posts or profiles:', error.message);
+                            return [];
+                        }
+                    }
+                        async function fetchComments(content) {
+                            const { data, error } = await supabase
+                                        .from('Posts')
+                                        .select('PID')
+                                        .eq('Content', content);
+                            const pid = data[0].PID
                             try {
+                                const { data: comments, error } = await supabase
+                                    .from('CommentTable')
+                                    .select('Content, UID, Username')
+                                    .eq('PID', pid);
 
-                                const { data: { user } } = await supabase.auth.getUser()
-                                const urlParams = new URLSearchParams(window.location.search);
-                                const userId = urlParams.get('uid');
-                                const { data, error } = await supabase
-                    
-                                const loggedInUserId = user.id;
-                                console.log(user.id)
+                                if (error) {
+                                    console.error('Error fetching comments:', error);
+                                    return [];
+                                }
 
-                                const { data: posts, error: postError } = await supabase
-                                    .from('Posts')
-                                    .select('*')
-                                    .eq('UID', userId); 
-                    
-                                if (postError) throw postError;
-                    
-                                console.log('Filtered Posts:', posts);
-                    
-
-                                const { data: profiles, error: profileError } = await supabase
-                                    .from('Profile_Information')
-                                    .select('*');
-                        
-                                if (profileError) throw profileError;
-                    
-                                console.log('Profiles:', profiles); 
-                    
-
-                                return posts.map(post => {
-                                    const profile = profiles.find(profile => profile.UID === post.UID);
-                                    return {
-                                        username: profile?.Username || 'Unknown',
-                                        profilePic: profile?.ProfilePicLink || './images/default-profile.png',
-                                        caption: post.Caption,
-                                        content: post.Content,
-                                        likes: post.Likes
-                                    };
-                                });
-                            } catch (error) {
-                                console.error('Error fetching posts or profiles:', error.message);
+                                return comments;
+                            } catch (err) {
+                                console.error('Error fetching comments:', err.message);
                                 return [];
                             }
                         }
@@ -366,8 +409,28 @@
                                     console.error('Failed to update likes:', err);
                                 }
                         }
-
-                        
+                        async function updateCommentInDatabase(content, comment) {
+                                try {
+                                    const { data: postdata, error } = await supabase
+                                        .from('Posts')
+                                        .select('*')
+                                        .eq('Content', content);
+                                    console.log(postdata[0])
+                                    const { data: { user } } = await supabase.auth.getUser()
+                                    const {data: profileinfo,error1} = await supabase
+                                        .from('Profile_Information')
+                                        .select('*')
+                                        .eq('UID', user.id)
+                                    const { error2 } = await supabase
+                                        .from('CommentTable')
+                                        .insert({ PID: postdata[0].PID, UID: postdata[0].UID, Content: comment, Username: profileinfo[0].Username});
+                                    if (error2){
+                                        console.error('Commentnotuploaded')
+                                    }
+                                } catch (err) {
+                                    console.error('Failed to update likes:', err);
+                                }
+                        }
                     
 
                         function createPostCard({ username, caption, content, likes, profilePic }) {
@@ -429,29 +492,78 @@
                                 await updateLikesInDatabase(content, newLikes); 
                             });
 
+                            const commentSection = document.createElement('div');
+                            commentSection.className = 'post-comments';
+
+
+                            fetchComments(content).then(comments => {
+                            comments.forEach(comment => {
+                                const commentDiv = document.createElement('div');
+                                commentDiv.className = 'comment-text';
+                                commentDiv.textContent = comment.Username + ": " + comment.Content;
+                                commentSection.appendChild(commentDiv);
+                            });
+                        });
+
+                            const commentButton = document.createElement('button');
+                            commentButton.textContent = 'Comment';
+                            commentButton.className = 'comment-button';
+
+                            
+
+                            const commentPopup = document.createElement('div');
+                            commentPopup.className = 'comment-popup';
+                            commentPopup.style.display = 'none'; // Initially hidden
+                            commentPopup.innerHTML = `
+                                <textarea placeholder="Write your comment..."></textarea>
+                                <button class="submit-comment-button">Submit</button>
+                            `;
+
+                            commentButton.addEventListener('click', () => {
+                                commentPopup.style.display = commentPopup.style.display === 'none' ? 'block' : 'none';
+                            });
+
+                            const submitCommentButton = commentPopup.querySelector('.submit-comment-button');
+                            submitCommentButton.addEventListener('click', async () => {
+                                const textarea = commentPopup.querySelector('textarea');
+                                const comment = textarea.value.trim();
+
+                                if (comment) {
+                                    textarea.value = ''; 
+                                    commentPopup.style.display = 'none'; 
+                                    await updateCommentInDatabase(content, comment);
+                                } else {
+                                    alert('Please write a comment before submitting.');
+                                }
+                            });
+
+                            commentSection.appendChild(commentButton);
+                            commentSection.appendChild(commentPopup);
+
                             card.appendChild(header);
                             card.appendChild(desc);
                             card.appendChild(contentDiv);
-                            card.appendChild(likeSection)
+                            card.appendChild(likeSection);
+                            card.appendChild(commentSection);
                     
                             return card;
                         }
-                    
 
-                        async function initializePosts() {
-                            const filteredPosts = await fetchFilteredPosts();
-                            const container = document.getElementById('profilepostcontainer');
-                    
-                            filteredPosts.forEach(post => {
-                                const card = createPostCard(post);
-                                container.appendChild(card);
-                            });
-                        }
-                    
-                        initializePosts();
-                    </script>
-    </div>
-    <script src="js/protectcontent.js"></script>
+
+                    async function initializePosts() {
+                        const filteredPosts = await fetchFilteredPosts();
+                        const container = document.getElementById('profilepostcontainer');
+                
+                        filteredPosts.forEach(post => {
+                            const card = createPostCard(post);
+                            container.appendChild(card);
+                        });
+                    }
+                
+                    initializePosts();
+                </script>
+</div>
+<script src="js/protectcontent.js"></script>
 
 </body>
 </html>

@@ -13,6 +13,7 @@
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -21,29 +22,46 @@
     
         #post-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             justify-items: center;
             max-width: 1200px;
             padding: 20px;
-            overflow-y: scroll;
+            max-height: 80vh;
+            overflow-y: auto;
         }
-    
+
         .post-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
             background: #326a8c;
             color: #fff;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
             transition: transform 0.2s ease;
-            padding: 16px;
-            box-sizing: border-box;
-            min-width: 250px;
-            max-width: 100%;
-            height: auto;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 0; /* Don't let it grow unnecessarily */
+        }
+        .post-footer {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+        }
+        .comment-button {
+            margin: 10px;
+            background-color:  #0f4e66;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .comment-button:hover {
+            background-color: #0f4e66;
         }
     
         .post-card .post-header,
@@ -230,6 +248,31 @@
             }
         }
 
+        async function fetchComments(content) {
+            const { data, error } = await supabase
+                        .from('Posts')
+                        .select('PID')
+                        .eq('Content', content);
+            const pid = data[0].PID
+            try {
+                const { data: comments, error } = await supabase
+                    .from('CommentTable')
+                    .select('Content, UID, Username')
+                    .eq('PID', pid);
+
+                if (error) {
+                    console.error('Error fetching comments:', error);
+                    return [];
+                }
+
+                return comments;
+            } catch (err) {
+                console.error('Error fetching comments:', err.message);
+                return [];
+            }
+        }
+
+
         async function updateLikesInDatabase(content, newLikes) {
                 try {
                     const { data, error } = await supabase
@@ -243,6 +286,30 @@
                     console.error('Failed to update likes:', err);
                 }
         }
+        async function updateCommentInDatabase(content, comment) {
+                try {
+                    const { data: postdata, error } = await supabase
+                        .from('Posts')
+                        .select('*')
+                        .eq('Content', content);
+                    console.log(postdata[0])
+                    const { data: { user } } = await supabase.auth.getUser()
+                    const {data: profileinfo,error1} = await supabase
+                        .from('Profile_Information')
+                        .select('*')
+                        .eq('UID', user.id)
+                    const { error2 } = await supabase
+                        .from('CommentTable')
+                        .insert({ PID: postdata[0].PID, UID: postdata[0].UID, Content: comment, Username: profileinfo[0].Username});
+                    if (error2){
+                        console.error('Commentnotuploaded')
+                    }
+                } catch (err) {
+                    console.error('Failed to update likes:', err);
+                }
+        }
+
+
     
 
         function createPostCard({ username, caption, content, likes, profilePic }) {
@@ -259,6 +326,7 @@
             const desc = document.createElement('div');
             desc.className = 'post-description';
             desc.textContent = caption;
+
     
             const contentDiv = document.createElement('div');
             contentDiv.className = 'post-content';
@@ -286,6 +354,7 @@
             likeSection.innerHTML = `
                 <span class="like-count">${likes}</span> Likes
                 <button class="like-button">Like</button>
+                <button class="dislike-button">Dislike</button>
             `;
 
             const likeButton = likeSection.querySelector('.like-button');
@@ -295,11 +364,67 @@
                 likeCountSpan.textContent = newLikes; 
                 await updateLikesInDatabase(content, newLikes); 
             });
+            const dislikeButton = likeSection.querySelector('.dislike-button');
+            const dislikeCountSpan = likeSection.querySelector('.like-count');
+            dislikeButton.addEventListener('click', async () => {
+                const newLikes = parseInt(likeCountSpan.textContent, 10) - 1;
+                likeCountSpan.textContent = newLikes; 
+                await updateLikesInDatabase(content, newLikes); 
+            });
     
+            const commentSection = document.createElement('div');
+            commentSection.className = 'post-comments';
+
+
+            fetchComments(content).then(comments => {
+            comments.forEach(comment => {
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'comment-text';
+                commentDiv.textContent = comment.Username + ": " + comment.Content;
+                commentSection.appendChild(commentDiv);
+            });
+        });
+
+            const commentButton = document.createElement('button');
+            commentButton.textContent = 'Comment';
+            commentButton.className = 'comment-button';
+
+            
+
+            const commentPopup = document.createElement('div');
+            commentPopup.className = 'comment-popup';
+            commentPopup.style.display = 'none'; // Initially hidden
+            commentPopup.innerHTML = `
+                <textarea placeholder="Write your comment..."></textarea>
+                <button class="submit-comment-button">Submit</button>
+            `;
+
+            commentButton.addEventListener('click', () => {
+                commentPopup.style.display = commentPopup.style.display === 'none' ? 'block' : 'none';
+            });
+
+            const submitCommentButton = commentPopup.querySelector('.submit-comment-button');
+            submitCommentButton.addEventListener('click', async () => {
+                const textarea = commentPopup.querySelector('textarea');
+                const comment = textarea.value.trim();
+
+                if (comment) {
+                    textarea.value = ''; 
+                    commentPopup.style.display = 'none'; 
+                    await updateCommentInDatabase(content, comment);
+                } else {
+                    alert('Please write a comment before submitting.');
+                }
+            });
+
+            commentSection.appendChild(commentButton);
+            commentSection.appendChild(commentPopup);
+
             card.appendChild(header);
             card.appendChild(desc);
             card.appendChild(contentDiv);
-            card.appendChild(likeSection)
+            card.appendChild(likeSection);
+            card.appendChild(commentSection);
     
             return card;
         }

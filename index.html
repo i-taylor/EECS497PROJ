@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supabase Posts with Profiles</title>
+    <title>Not Logged In Homepage</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="icon" href="./images/icon.png">
     <style>
@@ -20,11 +20,13 @@
 
         #post-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             justify-items: center;
             max-width: 1200px;
             padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
         .post-card {
@@ -40,6 +42,30 @@
             height: auto;
             display: flex;
             flex-direction: column;
+        }
+        .post-footer {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+        }
+        .post-comments{
+            margin-top: 20px;
+        }
+
+        .comment-button {
+            margin: 10px;
+            background-color:  #0f4e66;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .comment-button:hover {
+            background-color: #0f4e66;
         }
 
         .post-card:hover {
@@ -138,7 +164,29 @@
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6dGNvdnJ1Y2dheHBseXJ1YXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTc0NTUsImV4cCI6MjA0ODkzMzQ1NX0.YUHo4a_g-IENFQIW3zQO4cHU_cAuSFJB-Bm0-ZXrgc0'
     );
 
+    async function fetchComments(content) {
+            const { data, error } = await supabase
+                        .from('Posts')
+                        .select('PID')
+                        .eq('Content', content);
+            const pid = data[0].PID
+            try {
+                const { data: comments, error } = await supabase
+                    .from('CommentTable')
+                    .select('Content, UID, Username')
+                    .eq('PID', pid);
 
+                if (error) {
+                    console.error('Error fetching comments:', error);
+                    return [];
+                }
+
+                return comments;
+            } catch (err) {
+                console.error('Error fetching comments:', err.message);
+                return [];
+            }
+        }
         function createPostCard({ username, caption, content, likes, profilePic }) {
             const card = document.createElement('div');
             card.className = 'post-card';
@@ -180,11 +228,23 @@
             likeSection.innerHTML = `
                 <span class="like-count">${likes}</span> Likes
     `;
+            const commentSection = document.createElement('div');
+            commentSection.className = 'post-comments';
 
+
+            fetchComments(content).then(comments => {  
+            comments.forEach(comment => {
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'comment-text';
+                commentDiv.textContent = comment.Username + ": " + comment.Content;
+                commentSection.appendChild(commentDiv);
+            });
+            });
             card.appendChild(header);
             card.appendChild(desc);
             card.appendChild(contentDiv);
-            card.appendChild(likeSection)
+            card.appendChild(likeSection);
+            card.appendChild(commentSection);
 
             return card;
         }

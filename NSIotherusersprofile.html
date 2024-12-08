@@ -33,7 +33,7 @@
             color: #fff;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
+            overflow: visible;
             transition: transform 0.2s ease;
             padding: 16px;
             box-sizing: border-box;
@@ -43,6 +43,25 @@
             display: flex;
             flex-direction: column;
             flex-grow: 0; /* Don't let it grow unnecessarily */
+        }
+        .post-footer {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+        }
+        .comment-button {
+            margin: 10px;
+            background-color:  #0f4e66;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        .post-comments{
+            margin-top: 20px;
         }
     
         .post-card .post-header,
@@ -291,6 +310,29 @@
                                 return [];
                             }
                         }
+                        async function fetchComments(content) {
+                            const { data, error } = await supabase
+                                        .from('Posts')
+                                        .select('PID')
+                                        .eq('Content', content);
+                            const pid = data[0].PID
+                            try {
+                                const { data: comments, error } = await supabase
+                                    .from('CommentTable')
+                                    .select('Content, UID, Username')
+                                    .eq('PID', pid);
+
+                                if (error) {
+                                    console.error('Error fetching comments:', error);
+                                    return [];
+                                }
+
+                                return comments;
+                            } catch (err) {
+                                console.error('Error fetching comments:', err.message);
+                                return [];
+                            }
+                        }
                     
 
                         function createPostCard({ username, caption, content, likes, profilePic }) {
@@ -335,10 +377,22 @@
                                 <span class="like-count">${likes}</span> Likes
                     `;
 
+                    const commentSection = document.createElement('div');
+                            commentSection.className = 'post-comments';
+
+                            fetchComments(content).then(comments => {  
+                            comments.forEach(comment => {
+                                const commentDiv = document.createElement('div');
+                                commentDiv.className = 'comment-text';
+                                commentDiv.textContent = comment.Username + ": " + comment.Content;
+                                commentSection.appendChild(commentDiv);
+                            });
+                            });
                             card.appendChild(header);
                             card.appendChild(desc);
                             card.appendChild(contentDiv);
-                            card.appendChild(likeSection)
+                            card.appendChild(likeSection);
+                            card.appendChild(commentSection);
                     
                             return card;
                         }
